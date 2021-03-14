@@ -1,0 +1,31 @@
+name: "Hadolint Action"
+description: "Lint your Dockerfile with Hadolint and see inline annotations"
+author: "Johan Bergström <bugs@bergstroem.nu>"
+
+inputs:
+  dockerfile:
+    description:
+    required: false
+    default: "./Dockerfile"
+  config_file:
+    description:
+    required: false
+    default: false
+  error_level:
+    description:
+    required: false
+    default: 0
+  output_file:
+    description:
+    required: false
+    default: false
+  output_format:
+    description:
+    required: false
+    default: "json"
+
+runs:
+
+branding:
+  icon: "check"
+  color: "green"
