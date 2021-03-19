@@ -5,7 +5,7 @@ author: "Johan Bergström <bugs@bergstroem.nu>"
 inputs:
   dockerfile:
     description:
-    required: false
+    required: true
     default: "./Dockerfile"
   config_file:
     description:
@@ -15,14 +15,20 @@ inputs:
     description:
     required: false
     default: 0
-  output_file:
+  annotate:
     description:
-    required: false
-    default: false
+    required: true
+    default: true
   output_format:
     description:
     required: false
-    default: "json"
+    default: false
+
+outputs:
+  hadolint_output:
+    description: Optional output from Hadolint, controlled through `output_format`
+  hadolint_version:
+    description: Hadolint version
 
 runs:
 
