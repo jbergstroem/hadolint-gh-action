@@ -1,5 +1,5 @@
-name: "Hadolint Action"
-description: "Lint your Dockerfile with Hadolint and see inline annotations"
+name: "Hadolint Github Action"
+description: "Verify your Dockerfile correctness with Hadolint. Highly configurable."
 author: "Johan Bergström <bugs@bergstroem.nu>"
 
 inputs:
