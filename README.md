@@ -45,3 +45,5 @@ Also known as "can I run this in production". The action itself is tested via CI
 ## Performance
 
 Due to staying with bash we can avoid Docker-related performance penalties. Yet to be benchmarked, but it is likely on par or faster than other hadolint actions.
+
+[hadolint]: http://github.com/hadolint/hadolint/
