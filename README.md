@@ -41,3 +41,7 @@ If `output_format` is set, the github action variable `hadolint_output` will be 
 ## Robustness
 
 Also known as "can I run this in production". The action itself is tested via CI for all its use cases as well as unit tests for each function. Additionally, `shellcheck` is run against all shell scripts. Releases are cut manually (for now) and the action will strictly follow semver with regards to breaking functionality or options.
+
+## Performance
+
+Due to staying with bash we can avoid Docker-related performance penalties. Yet to be benchmarked, but it is likely on par or faster than other hadolint actions.
