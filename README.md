@@ -5,12 +5,13 @@ A github action that checks your Dockerfile with [hadolint][hadolint]. It suppor
 ## Usage
 
 ```yaml
-name: "Hadolint"
-description: "Analyze Dockerfile with Hadolint"
-runs:
-  steps:
-    - uses: actions/checkout@v2
-    - run: jbergstroem/hadolint-gh-action@v1
+jobs:
+  hadolint:
+    runs-on: ubuntu-20.04
+    name: "Hadolint"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
 ## Parameters
