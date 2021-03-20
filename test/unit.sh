@@ -50,8 +50,8 @@ function test_output_hadolint_version() {
 function test_json_to_annotation() {
   local RES=""
   RES=$(echo "${HADOLINT_JSON_RESPONSE}" | json_to_annotation)
-  assert_equals "${RES}" '::error file=Dockerfile,line=2,col=1::MAINTAINER is deprecated ([DL4000](https://github.com/hadolint/hadolint/wiki/DL4000))
-::warning file=Dockerfile,line=9,col=1::Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>` ([DL3018](https://github.com/hadolint/hadolint/wiki/DL3018))'
+  assert_equals "${RES}" '::error file=Dockerfile,line=2,col=1::MAINTAINER is deprecated (DL4000)
+::warning file=Dockerfile,line=9,col=1::Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>` (DL3018)'
 }
 
 function test_exit_if_found_in_json() {

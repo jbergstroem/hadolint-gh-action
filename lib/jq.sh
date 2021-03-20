@@ -6,7 +6,7 @@
 function json_to_annotation() {
   # note: assumes input is piped
   jq -r '.[] | (select(.level == ("info", "style")) .level |= "notice") |
-         "::\(.level) file=\(.file),line=\(.line),col=\(.column)::\(.message) ([\(.code)](https://github.com/hadolint/hadolint/wiki/\(.code)))"'
+         "::\(.level) file=\(.file),line=\(.line),col=\(.column)::\(.message) (\(.code))"'
 }
 
 function exit_if_found_in_json() {
