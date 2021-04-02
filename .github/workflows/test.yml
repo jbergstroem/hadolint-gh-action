@@ -2,7 +2,8 @@ name: test
 on: pull_request
 
 env:
-  HADOLINT_VERSION: 1.23.0
+  HADOLINT_VERSION: $(cat HADOLINT_VERSION)
+  BASH_UNIT_VERSION: 1.7.1
 
 jobs:
   bash_unit:
@@ -15,7 +16,11 @@ jobs:
           curl -LO https://github.com/hadolint/hadolint/releases/download/v${{ env.HADOLINT_VERSION }}/hadolint-Linux-x86_64 && sudo mv hadolint-Linux-x86_64 /usr/local/bin/hadolint && sudo chmod +x /usr/local/bin/hadolint
       - name: install bash_unit
         run: |
-          curl -L https://github.com/pgrange/bash_unit/archive/refs/tags/v1.7.1.tar.gz | tar xz --strip=1 -C /tmp/ && sudo mv /tmp/bash_unit /usr/local/bin
+          curl -L https://github.com/pgrange/bash_unit/archive/refs/tags/v${{ env.BASH_UNIT_VERSION }}.tar.gz | tar xz --strip=1 -C /tmp/ && sudo mv /tmp/bash_unit /usr/local/bin
+      - name: output versions
+        run: |
+          hadolint --version
+          bash_unit -v
       - name: run suite
         run: bash_unit test/*.sh
         env:
