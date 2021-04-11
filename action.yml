@@ -23,6 +23,10 @@ inputs:
     description: Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate` or `gitlab_codeclimate`)
     required: false
     default:
+  hadolint_path:
+    description: Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`
+    required: false
+    default:
 
 outputs:
   hadolint_output:
