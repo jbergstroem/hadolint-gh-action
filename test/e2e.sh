@@ -12,7 +12,12 @@ test_default_path_with_dockerfile() {
   assert_status_code 0 "../../${HL}"
 }
 
-test_custom_path() {
+test_custom_hadolint_path() {
+  # Since test runners should have jq installed, lets find path and set it
+  assert_status_code 0 "hadolint_path=$(which hadolint) dockerfile=fixtures/default-path/Dockerfile ${HL}"
+}
+
+test_custom_dockerfile_path() {
   assert_status_code 0 "dockerfile=fixtures/default-path/Dockerfile ${HL}"
 }
 
