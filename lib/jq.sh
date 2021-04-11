@@ -13,6 +13,7 @@ function exit_if_found_in_json() {
   # A bit finicky - we lean on jq to pass an error code. If this happens,
   # bash will simply exit since we use `set -o pipefail`
   # @TODO: support passing needle as array to avoid calling twice via "warning, error"
+  #        https://github.com/jbergstroem/hadolint-gh-action/issues/3
   jq -e --arg needle "${1}" \
      -r 'def count(s): reduce s as $_ (0;.+1); count(.[] |
          select(.level == $needle)) | . == 0'  &> /dev/null
