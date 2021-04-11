@@ -35,7 +35,12 @@ test_override_errorlevel() {
 }
 
 test_custom_config() {
-  assert "config_file=fixtures/ignore-DL4000.yml dockerfile=fixtures/Dockerfile-error ${HL}"
+  assert_status_code 0 "config_file=fixtures/ignore-DL4000.yml dockerfile=fixtures/Dockerfile-error ${HL}"
+}
+
+test_default_hadolint_config() {
+  cd fixtures/default-hadolint-path || exit 1
+  assert_status_code 0 "dockerfile=../Dockerfile-error ../../${HL}"
 }
 
 test_annotate() {
