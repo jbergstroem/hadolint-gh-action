@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-DOCKERFILE=${dockerfile:="Dockerfile"}
+DOCKERFILE=${dockerfile:-"Dockerfile"}
 CONFIG_FILE=${config_file:-}
-ERRORLEVEL=${error_level:=0}
-ANNOTATE=${annotate:="true"}
+ERRORLEVEL=${error_level:-0}
+ANNOTATE=${annotate:-"true"}
 OUTPUT_FORMAT=${output_format:-}
-HADOLINT_PATH=${hadolint_path:="hadolint"}
+HADOLINT_PATH=${hadolint_path:-"hadolint"}
 
 function exit_with_error() {
   echo "${1}"
@@ -15,7 +15,7 @@ function exit_with_error() {
 function run() {
   # Check for dependencies
   for executable in "${HADOLINT_PATH}" jq; do
-    if ! command -v ${executable} &> /dev/null; then
+    if ! command -v "${executable}" &> /dev/null; then
       echo "Cannot find required binary ${executable}. Is it in \$PATH?"
       exit 1
     fi
@@ -35,7 +35,7 @@ function run() {
   # to how output formatting works.
   if [[ -n "${OUTPUT_FORMAT}" ]]; then
     local OUTPUT=""
-    OUTPUT=$(eval hadolint --no-fail --no-color "${CONFIG}" -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
+    OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
     # https://github.com/actions/toolkit/issues/403
     echo "::set-output name=hadolint_output::${OUTPUT//$'\n'/'%0A'}"
   fi
@@ -43,7 +43,7 @@ function run() {
   # Eval to remove empty vars
   # Don't care about output if annotate is set to false - exit code is still passed
   local OUTPUT=""
-  OUTPUT=$(eval hadolint --no-fail --no-color "${CONFIG}" -f json "${DOCKERFILE}")
+  OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f json "${DOCKERFILE}")
   [[ "${ANNOTATE}" == "true" ]] && echo "${OUTPUT}" | json_to_annotation
   
   # Different exit depending on verbosity
