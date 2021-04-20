@@ -1,20 +1,20 @@
 name: test
 on: pull_request
 
-env:
-  HADOLINT_VERSION: $(cat HADOLINT_VERSION)
-  BASH_UNIT_VERSION: 1.7.1
-
 jobs:
   bash_unit:
     name: bash_unit
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: fetch hadolint version
+        run: echo "HADOLINT_VERSION=$(cat HADOLINT_VERSION)" >> ${GITHUB_ENV}
       - name: install hadolint
         run: |
           curl -LO https://github.com/hadolint/hadolint/releases/download/v${{ env.HADOLINT_VERSION }}/hadolint-Linux-x86_64 && sudo mv hadolint-Linux-x86_64 /usr/local/bin/hadolint && sudo chmod +x /usr/local/bin/hadolint
       - name: install bash_unit
+        env:
+          BASH_UNIT_VERSION: 1.7.1
         run: |
           curl -L https://github.com/pgrange/bash_unit/archive/refs/tags/v${{ env.BASH_UNIT_VERSION }}.tar.gz | tar xz --strip=1 -C /tmp/ && sudo mv /tmp/bash_unit /usr/local/bin
       - name: output versions
