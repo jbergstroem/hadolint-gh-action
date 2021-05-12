@@ -6,7 +6,7 @@ jobs:
     name: bash_unit
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - name: fetch hadolint version
         run: echo "HADOLINT_VERSION=$(cat HADOLINT_VERSION)" >> ${GITHUB_ENV}
       - name: install hadolint
