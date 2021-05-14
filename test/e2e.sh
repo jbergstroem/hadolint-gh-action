@@ -35,6 +35,7 @@ test_override_errorlevel() {
   assert "error_level=-1 dockerfile=fixtures/Dockerfile-error ${HL}"
   assert_fail "dockerfile=fixtures/Dockerfile-error ${HL}"
   assert_fail "error_level=2 dockerfile=fixtures/Dockerfile-error ${HL}"
+  assert "error_level=2 dockerfile=fixtures/Dockerfile-valid ${HL}"
   assert "dockerfile=fixtures/Dockerfile-warning ${HL}"
   assert_fail "error_level=1 dockerfile=fixtures/Dockerfile-warning ${HL}"
 }
