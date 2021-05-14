@@ -58,8 +58,8 @@ function run() {
   [[ "${ERRORLEVEL}" == "1" ]] && echo "${OUTPUT}" | exit_if_found_in_json "warning"
   [[ "${ERRORLEVEL}" == "1" ]] && echo "${OUTPUT}" | exit_if_found_in_json "error"
   
-  # Any output would imply an error
-  [[ "${ERRORLEVEL}" == "2" && "${OUTPUT}" != "" ]] && exit 1
+  # An empty json array would imply an error
+  [[ "${ERRORLEVEL}" == "2" && "${OUTPUT}" != "[]" ]] && exit 1
   
   # You either did well or chose to become a better person
   exit 0
