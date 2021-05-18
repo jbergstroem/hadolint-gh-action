@@ -3,7 +3,7 @@
 [[ -n "${DEBUG}" ]] && set -x
 set -euo pipefail
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 # shellcheck disable=SC1090 # this is intentional
 . "${DIR}/lib/hadolint.sh"
