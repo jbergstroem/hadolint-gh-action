@@ -15,6 +15,6 @@ function exit_if_found_in_json() {
   # @TODO: support passing needle as array to avoid calling twice via "warning, error"
   #        https://github.com/jbergstroem/hadolint-gh-action/issues/3
   jq -e --arg needle "${1}" \
-     -r 'def count(s): reduce s as $_ (0;.+1); count(.[] |
-         select(.level == $needle)) | . == 0'  &> /dev/null
+    -r 'def count(s): reduce s as $_ (0;.+1); count(.[] |
+         select(.level == $needle)) | . == 0' &>/dev/null
 }
