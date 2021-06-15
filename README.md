@@ -16,14 +16,14 @@ jobs:
 
 ## Parameters
 
-| Variable      | Default        | Description                                                                                           |
-| :------------ | :------------- | :---------------------------------------------------------------------------------------------------- |
-| dockerfile    | `./Dockerfile` | Path to Dockerfile(s). Accepts shell expansions (`**/Dockerfile`)                                     |
-| config_file   |                | Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)                     |
-| error_level   | `0`            | Fail CI if hadolint emits output (`-1`: never, `0`: error, `1`: warning, `2`: info)                   |
-| annotate      | true           | Annotate code inline in the github PR viewer (`true`/`false`)                                         |
-| output_format |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate` or `gitlab_codeclimate`) |
-| hadolint_path |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                         |
+| Variable      | Default        | Description                                                                                                        |
+| :------------ | :------------- | :----------------------------------------------------------------------------------------------------------------- |
+| dockerfile    | `./Dockerfile` | Path to Dockerfile(s). Accepts shell expansions (`**/Dockerfile`)                                                  |
+| config_file   |                | Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)                                  |
+| error_level   | `0`            | Fail CI if hadolint emits output (`-1`: never, `0`: error, `1`: warning, `2`: info)                                |
+| annotate      | true           | Annotate code inline in the github PR viewer (`true`/`false`)                                                      |
+| output_format |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate`, `gitlab_codeclimate` or `sonarqube`) |
+| hadolint_path |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                                      |
 
 ## Hadolint version
 
