@@ -14,7 +14,7 @@ jobs:
           curl -LO https://github.com/hadolint/hadolint/releases/download/v${{ env.HADOLINT_VERSION }}/hadolint-Linux-x86_64 && sudo mv hadolint-Linux-x86_64 /usr/local/bin/hadolint && sudo chmod +x /usr/local/bin/hadolint
       - name: install bash_unit
         env:
-          BASH_UNIT_VERSION: 1.7.1
+          BASH_UNIT_VERSION: 1.7.2
         run: |
           curl -L https://github.com/pgrange/bash_unit/archive/refs/tags/v${{ env.BASH_UNIT_VERSION }}.tar.gz | tar xz --strip=1 -C /tmp/ && sudo mv /tmp/bash_unit /usr/local/bin
       - name: output versions
