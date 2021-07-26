@@ -5,13 +5,13 @@ set -euo pipefail
 
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-# shellcheck disable=SC1090 # this is intentional
-. "${DIR}/lib/hadolint.sh"
-# shellcheck disable=SC1090 # this is intentional
-. "${DIR}/lib/main.sh"
-# shellcheck disable=SC1090 # this is intentional
-. "${DIR}/lib/jq.sh"
-# shellcheck disable=SC1090 # this is intentional
-. "${DIR}/lib/validate.sh"
+# shellcheck source=lib/hadolint.sh
+. "${DIR}"/lib/hadolint.sh
+# shellcheck source=lib/main.sh
+. "${DIR}"/lib/main.sh
+# shellcheck source=lib/jq.sh
+. "${DIR}"/lib/jq.sh
+# shellcheck source=lib/validate.sh
+. "${DIR}"/lib/validate.sh
 
 run
