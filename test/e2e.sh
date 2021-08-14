@@ -1,6 +1,13 @@
 #!/usr/bin/env bash_unit
 
 HL="../hadolint.sh"
+MKDIR_PREFIX="hadolint.tmp.XXXXX"
+
+teardown_suite() {
+  # if asserts in a test function fail no more code is run which require us to
+  # clean up globally instead of tests cleaning up on their own
+  rm -f "${MKDIR_PREFIX%.*}".*
+}
 
 test_default_path() {
   # This should fail since we can't find a Dockerfile in this directory
@@ -19,6 +26,13 @@ test_custom_hadolint_path() {
 
 test_custom_dockerfile_path() {
   assert_status_code 0 "dockerfile=fixtures/default-path/Dockerfile ${HL}"
+}
+
+test_multiple_dockerfiles() {
+  local TMPFILE=""
+  TMPFILE="$(mktemp ${MKDIR_PREFIX})"
+  cp fixtures/Dockerfile-valid "${TMPFILE}"
+  assert_status_code 0 "dockerfile=\"fixtures/Dockerfile-valid ${TMPFILE}\" ${HL}"
 }
 
 test_version_output() {
