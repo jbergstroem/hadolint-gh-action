@@ -3,11 +3,11 @@
 # shellcheck disable=SC2016
 HADOLINT_JSON_RESPONSE='[{"line":2,"code":"DL4000","message":"MAINTAINER is deprecated","column":1,"file":"Dockerfile","level":"error"},{"line":9,"code":"DL3018","message":"Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`","column":1,"file":"Dockerfile","level":"warning"}]'
 
-# shellcheck disable=SC1091
+# shellcheck source=lib/hadolint.sh
 . ../lib/hadolint.sh
-# shellcheck disable=SC1091
+# shellcheck source=lib/jq.sh
 . ../lib/jq.sh
-# shellcheck disable=SC1091
+# shellcheck source=lib/validate.sh
 . ../lib/validate.sh
 
 test_validate_error_level() {
