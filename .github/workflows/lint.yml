@@ -14,6 +14,7 @@ jobs:
           wget -qO- "https://github.com/koalaman/shellcheck/releases/download/v${{ env.SHELLCHECK_VERSION }}/shellcheck-v${{ env.SHELLCHECK_VERSION }}.linux.x86_64.tar.xz" | tar -xJ
           sudo cp "shellcheck-v${{ env.SHELLCHECK_VERSION }}/shellcheck" /usr/local/bin/
       - name: verify shell scripts
+        # shellcheck source path is assumed to be the "root" git directory
         run: shellcheck hadolint.sh lib/*.sh test/*.sh
   shfmt:
     runs-on: ubuntu-20.04
