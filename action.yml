@@ -1,5 +1,5 @@
 name: "Hadolint Github Action"
-description: "Verify your Dockerfile correctness with Hadolint. Highly configurable."
+description: "A stable, well-tested, highly configurable way of checking your Dockerfile(s) with Hadolint"
 author: "Johan Bergström <bugs@bergstroem.nu>"
 
 inputs:
@@ -12,7 +12,7 @@ inputs:
     required: false
     default:
   error_level:
-    description: "Fail CI if hadolint emits output (`-1`: never, `0`: error, `1`: warning, `2`: info)"
+    description: "Fail CI based on hadolint output (`-1`: never, `0`: error, `1`: warning, `2`: info)"
     required: false
     default: 0
   annotate:
