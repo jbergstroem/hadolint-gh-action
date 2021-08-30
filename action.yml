@@ -42,7 +42,7 @@ runs:
       run: |
         VERSION=$(<${{ github.action_path }}/HADOLINT_VERSION)
         mkdir ${{ github.action_path }}/bin
-        curl -s -L -o ${{ github.action_path }}/bin/hadolint \
+        wget -q -O ${{ github.action_path }}/bin/hadolint \
           "https://github.com/hadolint/hadolint/releases/download/v${VERSION}/hadolint-Linux-x86_64"
         chmod +x ${{ github.action_path }}/bin/hadolint
         echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
