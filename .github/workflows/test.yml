@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
       - name: fetch hadolint version
-        run: echo "HADOLINT_VERSION=$(cat HADOLINT_VERSION)" >> ${GITHUB_ENV}
+        run: echo "HADOLINT_VERSION=$(cat HADOLINT_VERSION)" >> "${GITHUB_ENV}"
       - name: install hadolint
         run: |
           wget -q -O hadolint https://github.com/hadolint/hadolint/releases/download/v${{ env.HADOLINT_VERSION }}/hadolint-Linux-x86_64 && \
@@ -26,5 +26,3 @@ jobs:
           bash_unit -v
       - name: run suite
         run: bash_unit test/*.sh
-        env:
-          VERSION: ${{ steps.assign.outputs.version }}
