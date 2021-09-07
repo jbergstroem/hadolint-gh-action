@@ -1,0 +1,21 @@
+name: lint
+on:
+  pull_request:
+    paths:
+      - "**.sh"
+
+jobs:
+  shfmt:
+    runs-on: ubuntu-20.04
+    name: shfmt
+    env:
+      SHFMT_VERSION: 3.3.1
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: install shfmt
+        run: |
+          wget -q -O shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.SHFMT_VERSION }}/shfmt_v${{ env.SHFMT_VERSION }}_linux_amd64" && \
+          chmod +x shfmt && \
+          sudo mv shfmt /usr/local/bin/
+      - name: lint shell scripts
+        run: shfmt -i 2 -d hadolint.sh lib/*.sh test/*.sh
