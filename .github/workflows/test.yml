@@ -1,5 +1,10 @@
 name: test
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - "HADOLINT_VERSION"
+      - "**.sh"
+      - "test/*"
 
 jobs:
   bash_unit:
