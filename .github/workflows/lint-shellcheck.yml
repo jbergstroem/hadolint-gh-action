@@ -11,7 +11,7 @@ jobs:
     env:
       SHELLCHECK_VERSION: 0.7.2
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       - name: install shellcheck
         run: |
           wget -q -O - "https://github.com/koalaman/shellcheck/releases/download/v${{ env.SHELLCHECK_VERSION }}/shellcheck-v${{ env.SHELLCHECK_VERSION }}.linux.x86_64.tar.xz" | tar -x -J --strip-components=1 -C . shellcheck-v${{ env.SHELLCHECK_VERSION }}/shellcheck && \
