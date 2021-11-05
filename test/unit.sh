@@ -31,8 +31,9 @@ test_validate_invalid_annotate() {
 
 test_validate_output_format() {
   assert "validate_output_format gitlab_codeclimate"
-  assert "validate_output_format tty"
+  assert "validate_output_format sarif"
   assert "validate_output_format sonarqube"
+  assert_fail "validate_output_format bbs"
 }
 
 test_validate_invalid_output_format() {
