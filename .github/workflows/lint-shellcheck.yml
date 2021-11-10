@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: shellcheck
     env:
-      SHELLCHECK_VERSION: 0.7.2
+      SHELLCHECK_VERSION: 0.8.0
     steps:
       - uses: actions/checkout@v2.4.0
       - name: install shellcheck
