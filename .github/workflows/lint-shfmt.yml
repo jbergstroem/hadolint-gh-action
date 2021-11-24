@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: shfmt
     env:
-      SHFMT_VERSION: 3.4.0
+      SHFMT_VERSION: 3.4.1
     steps:
       - uses: actions/checkout@v2.4.0
       - name: install shfmt
