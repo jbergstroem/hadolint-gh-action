@@ -11,7 +11,7 @@ jobs:
     name: bash_unit
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.0.0
       - name: fetch hadolint version
         run: echo "HADOLINT_VERSION=$(cat HADOLINT_VERSION)" >> "${GITHUB_ENV}"
       - name: install hadolint
@@ -21,7 +21,7 @@ jobs:
           sudo mv hadolint /usr/local/bin/hadolint
       - name: install bash_unit
         env:
-          BASH_UNIT_VERSION: 1.7.2
+          BASH_UNIT_VERSION: 1.9.1
         run: |
           wget -q -O- https://github.com/pgrange/bash_unit/archive/refs/tags/v${{ env.BASH_UNIT_VERSION }}.tar.gz | tar xz --strip=1 -C . && \
           sudo mv bash_unit /usr/local/bin
