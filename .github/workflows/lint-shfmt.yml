@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - "**.sh"
+      - .github/workflows/lint-shfmt.yml
 
 jobs:
   shfmt:

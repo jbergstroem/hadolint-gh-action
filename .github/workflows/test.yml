@@ -5,6 +5,7 @@ on:
       - "HADOLINT_VERSION"
       - "**.sh"
       - "test/*"
+      - .github/workflows/test.yml
 
 jobs:
   bash_unit:
