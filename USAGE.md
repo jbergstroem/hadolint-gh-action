@@ -84,7 +84,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: jbergstroem/hadolint-gh-action@v1
     with:
-      - dockerfile: "Dockerfile path/to/my/other/Dockerfile"
+      dockerfile: "Dockerfile path/to/my/other/Dockerfile"
 ```
 
 ### Only pass Dockerfiles that are changes in the PR
@@ -117,7 +117,7 @@ jobs:
       - uses: jbergstroem/hadolint-gh-action@v1
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
-          - dockerfile: "${{ steps.changed-files.outputs.other_changed_files }}"
+          dockerfile: "${{ steps.changed-files.outputs.other_changed_files }}"
 ```
 
 [gh-on]: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpaths
