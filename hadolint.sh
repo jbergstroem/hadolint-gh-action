@@ -2,6 +2,7 @@
 
 [[ -n "${DEBUG}" ]] && set -x
 set -euo pipefail
+shopt -s nullglob globstar
 
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
