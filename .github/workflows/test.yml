@@ -47,11 +47,19 @@ jobs:
         with:
           dockerfile: test/fixtures/Dockerfile-valid
           version: 2.9.0
-        env:
-          DEBUG: yes
       - name: check hadolint version
         run: |
           if [[ ! "${{ steps.check.outputs.hadolint_version }}" == "2.9.0-no-git" ]]; then
             echo "::error::Version mismatch: \"${{ steps.check.outputs.hadolint_version }}\" does not equal \"2.9.0-no-git\""
             exit 1
           fi
+  gh-action-glob:
+    name: action supports glob expansion
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.0.2
+      - uses: ./
+        with:
+          dockerfile: "test/**/Dockerfile-glob-*"
+        env:
+          DEBUG: yes

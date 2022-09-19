@@ -36,7 +36,6 @@ function run() {
   if [[ -n "${OUTPUT_FORMAT}" ]]; then
     local OUTPUT=""
     OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
-    # https://github.com/actions/toolkit/issues/403
     echo "::set-output name=hadolint_output::${OUTPUT//$'\n'/'%0A'}"
   fi
 

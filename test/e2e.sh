@@ -76,3 +76,7 @@ test_custom_output_format() {
   # gitlab seems to output a fingerprint for errors
   assert "output_format=gitlab_codeclimate dockerfile=fixtures/Dockerfile-error ${HL} | grep fingerprint"
 }
+
+test_bash_glob_expansion() {
+  assert "output_format=tty dockerfile=fixtures/**/Dockerfile-glob* ${HL}"
+}
