@@ -15,6 +15,7 @@ jobs:
   # If this file changes, any script should also fire.
   changed:
     runs-on: ubuntu-22.04
+    name: get changed files
     outputs:
       files: ${{ steps.all.outputs.all_changed_files }}
       self_changed: ${{ steps.lint.outputs.any_changed }}

@@ -20,33 +20,42 @@ inputs:
     required: true
     default: true
   output_format:
-    description: Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate` or `gitlab_codeclimate`)
+    description: Output format (choose between `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `json` or `tty`)
     required: false
     default:
   hadolint_path:
-    description: Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`
+    description: Absolute path to hadolint binary. Left unset means it can be found in `$PATH`
     required: false
     default:
+  version:
+    description: Use a specific version of Hadolint
+    default: 2.10.0
+    required: true
 
 outputs:
   hadolint_output:
     description: Optional output from Hadolint, controlled with `output_format`
+    value: ${{ steps.run.outputs.hadolint_output }}
   hadolint_version:
-    description: Hadolint version
+    description: Hadolint version in use
+    value: ${{ steps.run.outputs.hadolint_version }}
 
 runs:
   using: composite
   steps:
-    - name: Download hadolint and make available in path
+    - name: Download hadolint and make it available in path
       shell: bash
+      env:
+        version: ${{ inputs.version }}
       run: |
-        VERSION=$(<${{ github.action_path }}/HADOLINT_VERSION)
+        echo "::debug::Downloading Hadolint ${version}"
         mkdir ${{ github.action_path }}/bin
         wget -q -O ${{ github.action_path }}/bin/hadolint \
-          "https://github.com/hadolint/hadolint/releases/download/v${VERSION}/hadolint-Linux-x86_64"
+          "https://github.com/hadolint/hadolint/releases/download/v${version}/hadolint-Linux-x86_64"
         chmod +x ${{ github.action_path }}/bin/hadolint
         echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
     - name: Run hadolint.sh
+      id: run
       shell: bash
       env:
         dockerfile: ${{ inputs.dockerfile }}
@@ -54,6 +63,7 @@ runs:
         error_level: ${{ inputs.error_level }}
         annotate: ${{ inputs.annotate }}
         output_format: ${{ inputs.output_format }}
+        version: ${{ inputs.version }}
       run: ${{ github.action_path }}/hadolint.sh
 
 branding:
