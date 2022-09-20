@@ -22,7 +22,7 @@ jobs:
           sudo mv hadolint /usr/local/bin/hadolint
       - name: install bash_unit
         env:
-          BASH_UNIT_VERSION: 1.9.1
+          BASH_UNIT_VERSION: 2.0.0
         run: |
           wget -q -O- https://github.com/pgrange/bash_unit/archive/refs/tags/v${{ env.BASH_UNIT_VERSION }}.tar.gz | tar xz --strip=1 -C . && \
           sudo mv bash_unit /usr/local/bin
