@@ -15,7 +15,7 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: "Hadolint"
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +50,7 @@ on:
 
 jobs:
   hadolint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: "Hadolint"
     steps:
       - uses: actions/checkout@v2
@@ -78,7 +78,7 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: "Hadolint"
     steps:
       - uses: actions/checkout@v2
@@ -101,7 +101,7 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: "Hadolint"
     steps:
       - uses: actions/checkout@v2
