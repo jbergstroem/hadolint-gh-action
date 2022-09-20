@@ -21,7 +21,7 @@ function run() {
     fi
   done
 
-  # Set version
+  # Export version
   output_hadolint_version
 
   validate_error_level "${ERRORLEVEL}" || exit_with_error "Provided error level is not supported. Valid values: -1, 0, 1, 2"

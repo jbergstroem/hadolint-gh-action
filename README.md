@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: "Hadolint"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
@@ -31,11 +31,16 @@ More usage examples [can be found in USAGE.md](USAGE.md).
 | annotate      | true           | Annotate code inline in the github PR viewer (`true`/`false`)                                                               |
 | output_format |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `sonarqube` or `sarif`) |
 | hadolint_path |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                                               |
+| version       | `2.10.0`       | Use a specific version of Hadolint                                                                                          |
 
 ## Hadolint version
 
-The variable `hadolint_version` will always contain what version the action is running.
+The github action accepts an input - `version` - to switch/pin to a different version of hadolint.
+
+The output variable `hadolint_version` will always contain what version the action is running.
 This can be useful in debugging scenarios where things "break" from one day to the other due to the action being updated.
+
+The shell scripts are developed against the latest version available (which is the default value for the input).
 
 ## Output
 
