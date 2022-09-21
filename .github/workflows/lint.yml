@@ -11,48 +11,9 @@ on:
       - "**.sh"
 
 jobs:
-  # This job fetches changed files that others will use to see if they should be run or not.
-  # If this file changes, any script should also fire.
-  changed:
-    runs-on: ubuntu-22.04
-    name: get changed files
-    outputs:
-      workflows_changed: ${{ steps.workflows.outputs.any_changed }}
-      prettier_changed: ${{ steps.prettier.outputs.any_changed }}
-      shell_changed: ${{ steps.shell.outputs.any_changed }}
-      self_changed: ${{ steps.self.outputs.any_changed }}
-    steps:
-      - uses: actions/checkout@v3.0.2
-        with:
-          fetch-depth: 0
-      - name: Check if github workflows are changed
-        id: workflows
-        uses: tj-actions/changed-files@v29.0.9
-        with:
-          files: ".github/workflows/*.yml"
-      - name: Check if prettier-related files have changed
-        id: prettier
-        uses: tj-actions/changed-files@v29.0.9
-        with:
-          files: |
-            - **/*.md
-            - **/*.yml
-      - name: Check if shell scripts are changed
-        id: shell
-        uses: tj-actions/changed-files@v29.0.9
-        with:
-          files: "**/*.sh"
-      - name: Check if this file is changed
-        id: self
-        uses: tj-actions/changed-files@v29.0.9
-        with:
-          files: ".github/workflows/lint.yml"
-
   actionlint:
     name: actionlint
     runs-on: ubuntu-22.04
-    needs: changed
-    if: ${{ needs.changed.outputs.workflows_changed }}
     steps:
       - uses: actions/checkout@v3.0.2
       - name: Install Actionlint
@@ -68,8 +29,6 @@ jobs:
   prettier:
     name: prettier
     runs-on: ubuntu-22.04
-    needs: changed
-    if: ${{ needs.changed.outputs.prettier_changed || needs.changed.outputs.self_changed }}
     steps:
       - uses: actions/checkout@v3.0.2
       - uses: actions/setup-node@v3.4.1
@@ -82,8 +41,6 @@ jobs:
   shellcheck:
     name: shellcheck
     runs-on: ubuntu-22.04
-    needs: changed
-    if: ${{ needs.changed.outputs.shell_changed || needs.changed.outputs.self_changed }}
     env:
       SHELLCHECK_VERSION: 0.8.0
     steps:
@@ -98,8 +55,6 @@ jobs:
   shfmt:
     name: shfmt
     runs-on: ubuntu-22.04
-    needs: changed
-    if: ${{ needs.changed.outputs.shell_changed || needs.changed.outputs.self_changed }}
     env:
       SHFMT_VERSION: 3.5.1
     steps:

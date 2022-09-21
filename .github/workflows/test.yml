@@ -1,6 +1,11 @@
 name: test
 on:
   pull_request:
+    paths:
+      - "**/*.sh"
+      - "test/**"
+      - "action.yml"
+      - ".github/workflows/test.yml"
 
 jobs:
   bash_unit:
