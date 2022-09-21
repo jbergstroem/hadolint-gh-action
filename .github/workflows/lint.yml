@@ -17,17 +17,33 @@ jobs:
     runs-on: ubuntu-22.04
     name: get changed files
     outputs:
-      files: ${{ steps.all.outputs.all_changed_files }}
-      self_changed: ${{ steps.lint.outputs.any_changed }}
+      workflows_changed: ${{ steps.workflows.outputs.any_changed }}
+      prettier_changed: ${{ steps.prettier.outputs.any_changed }}
+      shell_changed: ${{ steps.shell.outputs.any_changed }}
+      self_changed: ${{ steps.self.outputs.any_changed }}
     steps:
       - uses: actions/checkout@v3.0.2
         with:
           fetch-depth: 0
-      - name: Get a list of changed files
-        id: all
+      - name: Check if github workflows are changed
+        id: workflows
         uses: tj-actions/changed-files@v29.0.9
+        with:
+          files: ".github/workflows/*.yml"
+      - name: Check if prettier-related files have changed
+        id: prettier
+        uses: tj-actions/changed-files@v29.0.9
+        with:
+          files: |
+            - **/*.md
+            - **/*.yml
+      - name: Check if shell scripts are changed
+        id: shell
+        uses: tj-actions/changed-files@v29.0.9
+        with:
+          files: "**/*.sh"
       - name: Check if this file is changed
-        id: lint
+        id: self
         uses: tj-actions/changed-files@v29.0.9
         with:
           files: ".github/workflows/lint.yml"
@@ -36,7 +52,7 @@ jobs:
     name: actionlint
     runs-on: ubuntu-22.04
     needs: changed
-    if: ${{ contains(needs.changed.outputs.files, '.github/workflows') }}
+    if: ${{ needs.changed.outputs.workflows_changed }}
     steps:
       - uses: actions/checkout@v3.0.2
       - name: Install Actionlint
@@ -53,7 +69,7 @@ jobs:
     name: prettier
     runs-on: ubuntu-22.04
     needs: changed
-    if: ${{ contains(needs.changed.outputs.files, '.md') || contains(needs.changed.outputs.files, '.yml') || needs.changed.outputs.self_changed }}
+    if: ${{ needs.changed.outputs.prettier_changed || needs.changed.outputs.self_changed }}
     steps:
       - uses: actions/checkout@v3.0.2
       - uses: actions/setup-node@v3.4.1
@@ -67,7 +83,7 @@ jobs:
     name: shellcheck
     runs-on: ubuntu-22.04
     needs: changed
-    if: ${{ contains(needs.changed.outputs.files, '.sh') || needs.changed.outputs.self_changed }}
+    if: ${{ needs.changed.outputs.shell_changed || needs.changed.outputs.self_changed }}
     env:
       SHELLCHECK_VERSION: 0.8.0
     steps:
@@ -83,7 +99,7 @@ jobs:
     name: shfmt
     runs-on: ubuntu-22.04
     needs: changed
-    if: ${{ contains(needs.changed.outputs.files, '.sh') || needs.changed.outputs.self_changed }}
+    if: ${{ needs.changed.outputs.shell_changed || needs.changed.outputs.self_changed }}
     env:
       SHFMT_VERSION: 3.5.1
     steps:
