@@ -37,20 +37,20 @@ test_multiple_dockerfiles() {
 
 test_version_output() {
   # this basically runs a "happy path" and captures output
-  assert "dockerfile=fixtures/default-path/Dockerfile ${HL} | grep hadolint_version"
+  assert "dockerfile=fixtures/default-path/Dockerfile ${HL} | grep hadolint_version" "hadolint version should be displayed"
 }
 
 test_output_with_nonzero_exit() {
-  assert "dockerfile=fixtures/Dockerfile-error ${HL} | grep 'MAINTAINER is deprecated'"
+  assert "dockerfile=fixtures/Dockerfile-error ${HL} | grep 'MAINTAINER is deprecated'" "hadolint warnings should surface"
   assert_fail "dockerfile=fixtures/Dockerfile-error ${HL}"
 }
 
 test_override_errorlevel() {
-  assert "error_level=-1 dockerfile=fixtures/Dockerfile-error ${HL}"
+  assert "error_level=-1 dockerfile=fixtures/Dockerfile-error ${HL}" "changes to error level should be respected"
   assert_fail "dockerfile=fixtures/Dockerfile-error ${HL}"
   assert_fail "error_level=2 dockerfile=fixtures/Dockerfile-error ${HL}"
-  assert "error_level=2 dockerfile=fixtures/Dockerfile-valid ${HL}"
-  assert "dockerfile=fixtures/Dockerfile-warning ${HL}"
+  assert "error_level=2 dockerfile=fixtures/Dockerfile-valid ${HL}" "changes to error level should be respected"
+  assert "dockerfile=fixtures/Dockerfile-warning ${HL}" "changes to error level should be respected"
   assert_fail "error_level=1 dockerfile=fixtures/Dockerfile-warning ${HL}"
 }
 
@@ -64,7 +64,7 @@ test_default_hadolint_config() {
 }
 
 test_annotate() {
-  assert "dockerfile=fixtures/Dockerfile-error ${HL} | grep '::error'"
+  assert "dockerfile=fixtures/Dockerfile-error ${HL} | grep '::error'" "output format should follow annotation rules"
 }
 
 test_disable_annotate() {
@@ -72,11 +72,11 @@ test_disable_annotate() {
 }
 
 test_custom_output_format() {
-  assert "output_format=tty dockerfile=fixtures/Dockerfile-error ${HL} | grep '::set-output'"
+  assert "output_format=tty dockerfile=fixtures/Dockerfile-error ${HL} | grep '::set-output'" "output format should be changeable"
   # gitlab seems to output a fingerprint for errors
   assert "output_format=gitlab_codeclimate dockerfile=fixtures/Dockerfile-error ${HL} | grep fingerprint"
 }
 
 test_bash_glob_expansion() {
-  assert "output_format=tty dockerfile=fixtures/**/Dockerfile-glob* ${HL}"
+  assert "output_format=tty dockerfile=fixtures/**/Dockerfile-glob* ${HL}" "expand shell globs before passing to hadolint"
 }
