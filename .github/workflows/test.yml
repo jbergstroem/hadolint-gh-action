@@ -12,7 +12,7 @@ jobs:
     name: bash tests
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: install hadolint
         # yq is like jq for yaml
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
@@ -38,7 +38,7 @@ jobs:
     name: action validates dockerfiles
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
@@ -46,7 +46,7 @@ jobs:
     name: action supports custom version
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - uses: ./
         id: check
         with:
@@ -62,7 +62,7 @@ jobs:
     name: action supports glob expansion
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - uses: ./
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
