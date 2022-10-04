@@ -15,7 +15,7 @@ jobs:
     name: actionlint
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: Install Actionlint
         env:
           ACTIONLINT_VERSION: 1.6.18
@@ -30,7 +30,7 @@ jobs:
     name: prettier
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - uses: actions/setup-node@v3.5.0
         with:
           node-version: 18
@@ -44,7 +44,7 @@ jobs:
     env:
       SHELLCHECK_VERSION: 0.8.0
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: install shellcheck
         run: |
           wget -q -O - "https://github.com/koalaman/shellcheck/releases/download/v${{ env.SHELLCHECK_VERSION }}/shellcheck-v${{ env.SHELLCHECK_VERSION }}.linux.x86_64.tar.xz" | tar -x -J --strip-components=1 -C . shellcheck-v${{ env.SHELLCHECK_VERSION }}/shellcheck && \
@@ -58,7 +58,7 @@ jobs:
     env:
       SHFMT_VERSION: 3.5.1
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: install shfmt
         run: |
           wget -q -O shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.SHFMT_VERSION }}/shfmt_v${{ env.SHFMT_VERSION }}_linux_amd64" && \
