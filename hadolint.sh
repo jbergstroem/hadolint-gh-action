@@ -10,8 +10,6 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${DIR}"/lib/hadolint.sh
 # shellcheck source=lib/main.sh
 . "${DIR}"/lib/main.sh
-# shellcheck source=lib/jq.sh
-. "${DIR}"/lib/jq.sh
 # shellcheck source=lib/validate.sh
 . "${DIR}"/lib/validate.sh
 

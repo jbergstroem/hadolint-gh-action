@@ -1,0 +1,30 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "hadolint-gh-action",
+      "pattern": [
+        {
+          "regexp": "^(.+):(\\d+)\\s(DL\\d+)\\s(error|warning):\\s(.+)$",
+          "file": 1,
+          "line": 2,
+          "code": 3,
+          "severity": 4,
+          "message": 5
+        }
+      ]
+    },
+    {
+      "owner": "hadolint-gh-action-notice",
+      "severity": "notice",
+      "pattern": [
+        {
+          "regexp": "^(.+):(\\d+)\\s(DL\\d+)\\s(info|style):\\s(.+)$",
+          "file": 1,
+          "line": 2,
+          "code": 3,
+          "message": 5
+        }
+      ]
+    }
+  ]
+}
