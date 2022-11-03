@@ -67,6 +67,6 @@ jobs:
       - name: Install shfmt
         env:
           version: "3.5.1"
-        run: curl -L -s -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
+        run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
       - name: Lint shell scripts
         run: shfmt -i 2 -d hadolint.sh lib/*.sh test/*.sh
