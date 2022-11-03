@@ -4,20 +4,20 @@ author: "Johan Bergström <bugs@bergstroem.nu>"
 
 inputs:
   dockerfile:
+    default: "./Dockerfile"
     description: Path to Dockerfile(s). Accepts shell expansions (`**/Dockerfile`)
     required: true
-    default: "./Dockerfile"
   config_file:
     description: Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)
     required: false
   error_level:
+    default: 0
     description: Fail CI based on hadolint output (`-1` never, `0` error, `1` warning, `2` info/style)
     required: false
-    default: 0
   annotate:
+    default: true
     description: Annotate code inline in the github PR viewer (`true`/`false`)
     required: true
-    default: true
   output_format:
     description: Output format (choose between `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `json` or `tty`)
     required: false
@@ -25,8 +25,8 @@ inputs:
     description: Absolute path to hadolint binary. Left unset means it can be found in `$PATH`
     required: false
   version:
-    description: Use a specific version of Hadolint
     default: 2.10.0
+    description: Use a specific version of Hadolint
     required: true
 
 outputs:

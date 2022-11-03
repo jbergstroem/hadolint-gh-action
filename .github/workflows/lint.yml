@@ -4,6 +4,8 @@ on:
     paths:
       # actionlint
       - ".github/workflows/*.yml"
+      # renovate
+      - ".github/renovate.json"
       # prettier
       - "**.md"
       - "**.yml"
@@ -12,47 +14,53 @@ on:
       - "**.sh"
 
 jobs:
+  validate-renovate-config:
+    name: Validate renovate config
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: validate
+        uses: rinchsan/renovate-config-validator@v0.0.12
+        with:
+          pattern: ".github/renovate.json"
   actionlint:
-    name: actionlint
+    name: Actionlint
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Install Actionlint
         env:
-          ACTIONLINT_VERSION: 1.6.18
-        run: |
-          wget -q -O- "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" | tar -x -z -C . actionlint && \
-          mv actionlint /usr/local/bin
+          version: "1.6.22"
+        run: curl -Ls "https://github.com/rhysd/actionlint/releases/download/v${{ env.version }}/actionlint_${{ env.version }}_linux_amd64.tar.gz" | sudo tar -x -z -C /usr/local/bin actionlint
       - name: Run Actionlint
         run: |
-          actionlint -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}{{end}}' -ignore 'SC2016:' .github/workflows/*.yml
-
+          echo "::add-matcher::.github/matcher-actionlint.json"
+          actionlint -color
   prettier:
-    name: prettier
     runs-on: ubuntu-22.04
+    name: Prettier
     steps:
       - uses: actions/checkout@v3.1.0
       - uses: actions/setup-node@v3.5.1
         with:
-          node-version: 18
-      - name: install prettier
+          node-version: "18.11.0"
+      - name: Install prettier
         run: npm install -g prettier
-      - name: run prettier
+      - name: Run prettier
         run: prettier -c .
   shellcheck:
-    name: shellcheck
     runs-on: ubuntu-22.04
-    env:
-      SHELLCHECK_VERSION: 0.8.0
+    name: Shellcheck
     steps:
       - uses: actions/checkout@v3.1.0
-      - name: install shellcheck
+      - name: Install Shellcheck
+        env:
+          version: "0.8.0"
+        run: curl -Ls "https://github.com/koalaman/shellcheck/releases/download/v${{ env.version }}/shellcheck-v${{ env.version }}.linux.x86_64.tar.xz" | sudo tar -x -J --wildcards --strip-components=1 -C /usr/local/bin "shellcheck*/shellcheck"
+      - name: Verify shell scripts
         run: |
-          wget -q -O - "https://github.com/koalaman/shellcheck/releases/download/v${{ env.SHELLCHECK_VERSION }}/shellcheck-v${{ env.SHELLCHECK_VERSION }}.linux.x86_64.tar.xz" | tar -x -J --strip-components=1 -C . shellcheck-v${{ env.SHELLCHECK_VERSION }}/shellcheck && \
-          sudo mv shellcheck /usr/local/bin/
-      - name: verify shell scripts
-        # shellcheck source path is assumed to be the "root" git directory
-        run: shellcheck hadolint.sh lib/*.sh test/*.sh
+          echo "::add-matcher::.github/matcher-shellcheck.json"
+          shellcheck -f gcc -S warning hadolint.sh lib/*.sh test/*.sh
   shfmt:
     name: shfmt
     runs-on: ubuntu-22.04
