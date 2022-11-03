@@ -2,7 +2,7 @@ name: test
 on:
   pull_request:
     paths:
-      - "**/*.sh"
+      - "**.sh"
       - "test/**"
       - "action.yml"
       - ".github/workflows/test.yml"
