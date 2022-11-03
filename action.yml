@@ -48,10 +48,10 @@ runs:
       run: |
         echo "::debug::Downloading Hadolint ${{ inputs.version }}"
         mkdir ${{ github.action_path }}/bin
-        wget -q -O ${{ github.action_path }}/bin/hadolint \
+        curl -L -s -o ${{ github.action_path }}/bin/hadolint \
           "https://github.com/hadolint/hadolint/releases/download/v${{ inputs.version }}/hadolint-Linux-x86_64"
         chmod +x ${{ github.action_path }}/bin/hadolint
-        echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
+        echo "${{ github.action_path }}/bin" >> "${GITHUB_PATH}"
     - name: Invoke hadolint.sh
       id: run
       shell: bash
