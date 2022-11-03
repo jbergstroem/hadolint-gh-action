@@ -36,8 +36,11 @@ test_multiple_dockerfiles() {
 }
 
 test_version_output() {
-  # this basically runs a "happy path" and captures output
-  assert "dockerfile=fixtures/default-path/Dockerfile ${HL} | grep hadolint_version" "hadolint version should be displayed"
+  # We have to control our own file stream in order to pick up what we're sending to github outputs
+  local TMPFILE=""
+  TMPFILE="$(mktemp ${MKDIR_PREFIX})"
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true dockerfile=fixtures/default-path/Dockerfile ${HL}
+  assert "cat ${TMPFILE} | grep -q hadolint_version" "hadolint should show the version as a github output"
 }
 
 test_output_with_nonzero_exit() {
@@ -64,15 +67,16 @@ test_default_hadolint_config() {
 }
 
 test_annotate() {
-  assert "dockerfile=fixtures/Dockerfile-error ${HL} | grep '::error'" "output format should follow annotation rules"
+  # assume that we're in a github action environment
+  assert "GITHUB_ACTIONS=true dockerfile=fixtures/Dockerfile-error ${HL} | grep '::add-matcher::'" "output format should follow annotation rules"
 }
 
 test_disable_annotate() {
-  assert_status_code 1 "annotate=false dockerfile=fixtures/Dockerfile-error ${HL} | grep '::error'"
+  assert_status_code 1 "annotate=false dockerfile=fixtures/Dockerfile-error ${HL} | grep '::add-matcher::'"
 }
 
 test_custom_output_format() {
-  assert "output_format=tty dockerfile=fixtures/Dockerfile-error ${HL} | grep '::set-output'" "output format should be changeable"
+  assert "output_format=json dockerfile=fixtures/Dockerfile-error ${HL} | grep hadolint_output" "output format should be changeable"
   # gitlab seems to output a fingerprint for errors
   assert "output_format=gitlab_codeclimate dockerfile=fixtures/Dockerfile-error ${HL} | grep fingerprint"
 }

@@ -6,6 +6,10 @@ ERRORLEVEL=${error_level:-0}
 ANNOTATE=${annotate:-"true"}
 OUTPUT_FORMAT=${output_format:-}
 HADOLINT_PATH=${hadolint_path:-"hadolint"}
+# https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
+CI=${GITHUB_ACTIONS:-"false"}
+# This variable is magic in workflows; it intercepts output and makes it availble across jobs
+GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/null}
 
 function exit_with_error() {
   echo "${1}"
@@ -13,6 +17,7 @@ function exit_with_error() {
 }
 
 function run() {
+  local OUTPUT=""
   # Check for dependencies
   for executable in "${HADOLINT_PATH}" jq; do
     if ! command -v "${executable}" &>/dev/null; then
@@ -21,8 +26,14 @@ function run() {
     fi
   done
 
-  # Export version
-  output_hadolint_version
+  # Export version [if we're running in CI]
+  if [[ "${CI}" == "true" ]]; then
+    # The trick here is to intercept the variable output,
+    # then pass it to something github parses
+    local ret
+    ret="$(output_hadolint_version)"
+    echo "${ret}" >>"${GITHUB_OUTPUT}"
+  fi
 
   validate_error_level "${ERRORLEVEL}" || exit_with_error "Provided error level is not supported. Valid values: -1, 0, 1, 2"
   validate_annotate "${ANNOTATE}" || exit_with_error "Annotate needs to be set to true or false"
@@ -31,35 +42,35 @@ function run() {
   local CONFIG=""
   [[ -z "${CONFIG_FILE}" ]] || CONFIG="-c ${CONFIG_FILE}"
 
+  [[ "${ANNOTATE}" == "true" ]] && [[ "${CI}" == "true" ]] && echo "::add-matcher::.github/problem-matcher.json"
+
   # If output_format is passed, we unfortunately need to run hadolint twice due
   # to how output formatting works.
   if [[ -n "${OUTPUT_FORMAT}" ]]; then
-    local OUTPUT=""
     OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
-    echo "::set-output name=hadolint_output::${OUTPUT//$'\n'/'%0A'}"
+    echo "hadolint_output=${OUTPUT//$'\n'/'%0A'} >> \$GITHUB_OUTPUT"
   fi
 
   # Eval to remove empty vars
   # Don't care about output if annotate is set to false - exit code is still passed
-  local OUTPUT=""
-  OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f json "${DOCKERFILE}")
-  [[ "${ANNOTATE}" == "true" ]] && echo "${OUTPUT}" | json_to_annotation
+  OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f tty "${DOCKERFILE}")
 
+  # Always write output
+  echo "${OUTPUT}"
+
+  local EXITCODE=0
   # Different exit depending on verbosity
   # Ignore all errors
-  [[ "${ERRORLEVEL}" == "-1" ]] && exit 0
+  [[ "${ERRORLEVEL}" == "-1" ]] && exit ${EXITCODE}
 
-  # Only bail with type error
-  [[ "${ERRORLEVEL}" == "0" ]] && echo "${OUTPUT}" | exit_if_found_in_json "error"
+  # Exit if errors occur
+  [[ "${ERRORLEVEL}" == "0" ]] && [[ "${OUTPUT}" =~ .*DL[[:digit:]]+[[:space:]]error\:.* ]] && EXITCODE=1
 
-  # Only bail with type error, warning
-  # @TODO: get to to handle this once
-  [[ "${ERRORLEVEL}" == "1" ]] && echo "${OUTPUT}" | exit_if_found_in_json "warning"
-  [[ "${ERRORLEVEL}" == "1" ]] && echo "${OUTPUT}" | exit_if_found_in_json "error"
+  # ..also with warnings
+  [[ "${ERRORLEVEL}" == "1" ]] && [[ "${OUTPUT}" =~ .*(warning)|(error)\:.* ]] && EXITCODE=1
 
-  # An empty json array would imply an error
-  [[ "${ERRORLEVEL}" == "2" && "${OUTPUT}" != "[]" ]] && exit 1
+  # ..also with style nits
+  [[ "${ERRORLEVEL}" == "2" ]] && [[ -n "${OUTPUT}" ]] && exit 1
 
-  # You either did well or chose to become a better person
-  exit 0
+  exit ${EXITCODE}
 }
