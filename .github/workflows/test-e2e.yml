@@ -1,0 +1,42 @@
+name: Test-E2E
+on:
+  pull_request:
+    paths:
+      - "**.sh"
+      - "test/**"
+      - "action.yml"
+      - ".github/workflows/test.yml"
+
+jobs:
+  gh-action-default:
+    name: Action validates dockerfiles
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+  gh-action-version:
+    name: Action supports custom version
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - uses: ./
+        id: check
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+          version: 2.9.0
+      - name: check hadolint version
+        run: |
+          if [[ ! "${{ steps.check.outputs.hadolint_version }}" == "2.9.0-no-git" ]]; then
+            echo "::error::Version mismatch: \"${{ steps.check.outputs.hadolint_version }}\" does not equal \"2.9.0-no-git\""
+            exit 1
+          fi
+  gh-action-glob:
+    name: Action supports glob expansion
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - uses: ./
+        with:
+          dockerfile: "test/**/Dockerfile-glob-*"
