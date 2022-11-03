@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "baseBranches": ["main"],
+  "extends": [
+    ":separateMajorReleases",
+    ":rebaseStalePrs",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    "group:allNonMajor"
+  ],
+  "enabledManagers": ["dockerfile", "github-actions", "regex"],
+  "commitMessageAction": "",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "{{#if isMajor}}v{{{newMajor}}}{{else}}{{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}",
+  "regexManagers": [
+    {
+      "fileMatch": ["^\\.github/workflows/[^/]+\\.yml$"],
+      "matchStrings": [
+        "version: \"(?<currentValue>.*?)\"\\s+run: curl -Ls \"https://github.com/(?<depName>.*?)/releases/download.*"
+      ],
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/[^/]+\\.yml$"],
+      "matchStrings": ["node-version: \"(?<currentValue>.*?)\"\\n"],
+      "depNameTemplate": "actions/node-versions",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": ["^action\\.yml$"],
+      "matchStrings": ["version:\\s+default: (?<currentValue>.*?)\\n"],
+      "depNameTemplate": "hadolint/hadolint",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "default: (?<version>.*)$"
+    }
+  ],
+  "labels": ["type: dependencies"],
+  "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
+  "prHeader": "",
+  "prFooter": ""
+}
