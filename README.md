@@ -13,7 +13,7 @@ on: pull_request
 jobs:
   hadolint:
     runs-on: ubuntu-22.04
-    name: "Hadolint"
+    name: Hadolint
     steps:
       - uses: actions/checkout@v3
       - uses: jbergstroem/hadolint-gh-action@v1
@@ -50,6 +50,11 @@ You can control the behavior of how hadolint presents its findings by configurin
 - output_format: store the output in a variable you can pass on to other processing tools
 
 If `output_format` is set, the github action variable `hadolint_output` will contain the output. You can choose what format you prefer depending on how you want to process the results.
+
+These output variables are always populated:
+
+- `hadolint_version`: the version of hadolint used while running the action
+- `hadolint_gh_action_version`: the version of this action while running it
 
 ## Robustness
 
