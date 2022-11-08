@@ -10,6 +10,7 @@ HADOLINT_PATH=${hadolint_path:-"hadolint"}
 CI=${GITHUB_ACTIONS:-"false"}
 # This variable is magic in workflows; it intercepts output and makes it availble across jobs
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/null}
+MATCHER_PREFIX=${GITHUB_ACTION_PATH:-"~"}
 
 function exit_with_error() {
   echo "${1}"
@@ -42,7 +43,7 @@ function run() {
   local CONFIG=""
   [[ -z "${CONFIG_FILE}" ]] || CONFIG="-c ${CONFIG_FILE}"
 
-  [[ "${ANNOTATE}" == "true" ]] && [[ "${CI}" == "true" ]] && echo "::add-matcher::.github/problem-matcher.json"
+  [[ "${ANNOTATE}" == "true" ]] && [[ "${CI}" == "true" ]] && echo "::add-matcher::${MATCHER_PREFIX}/.github/problem-matcher.json"
 
   # If output_format is passed, we unfortunately need to run hadolint twice due
   # to how output formatting works.
