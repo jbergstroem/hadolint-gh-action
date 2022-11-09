@@ -12,7 +12,7 @@ function validate_annotate() {
 }
 
 function validate_output_format() {
-  local -a output_formats=(tty json checkstyle codeclimate gitlab_codeclimate sonarqube sarif)
+  local -a output_formats=(tty json checkstyle codeclimate gitlab_codeclimate gnu codacy sonarqube sarif)
   for format in "${output_formats[@]}"; do
     [[ "${format}" == "${1}" ]] && return 0
   done

@@ -38,7 +38,7 @@ function run() {
 
   validate_error_level "${ERRORLEVEL}" || exit_with_error "Provided error level is not supported. Valid values: -1, 0, 1, 2"
   validate_annotate "${ANNOTATE}" || exit_with_error "Annotate needs to be set to true or false"
-  [[ -z "${OUTPUT_FORMAT}" ]] || (validate_output_format "${OUTPUT_FORMAT}" || exit_with_error "Invalid format. If set, output format needs to be one of: tty, json, checkstyle, codeclimate, gitlab_codeclimate")
+  [[ -z "${OUTPUT_FORMAT}" ]] || (validate_output_format "${OUTPUT_FORMAT}" || exit_with_error "Invalid format. If set, output format needs to be one of: tty, json, checkstyle, codeclimate, gitlab_codeclimate, gnu, tty, json")
 
   local CONFIG=""
   [[ -z "${CONFIG_FILE}" ]] || CONFIG="-c ${CONFIG_FILE}"
