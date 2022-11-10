@@ -39,7 +39,7 @@ test_version_output() {
   # We have to control our own file stream in order to pick up what we're sending to github outputs
   local TMPFILE=""
   TMPFILE="$(mktemp ${MKDIR_PREFIX})"
-  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true dockerfile=fixtures/default-path/Dockerfile ${HL}
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
   assert "cat ${TMPFILE} | grep -q hadolint_version" "hadolint should show the version as a github output"
 }
 
