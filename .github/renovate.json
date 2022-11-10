@@ -12,7 +12,13 @@
   "enabledManagers": ["github-actions", "regex"],
   "commitMessageAction": "",
   "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "{{#if isMajor}}v{{{newMajor}}}{{else}}{{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}",
+  "commitMessageExtra": "{{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "commitMessageTopic": "{{depName}}"
+    }
+  ],
   "regexManagers": [
     {
       "fileMatch": ["^\\.github/workflows/[^/]+\\.yml$"],
@@ -34,7 +40,7 @@
       "matchStrings": ["version:\\s+default: (?<currentValue>.*?)\\n"],
       "depNameTemplate": "hadolint/hadolint",
       "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "default: (?<version>.*)$"
+      "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
   "labels": ["type: dependencies"],
