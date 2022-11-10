@@ -31,7 +31,7 @@ More usage examples [can be found in USAGE.md](USAGE.md).
 | annotate      | true           | Annotate code inline in the github PR viewer (`true`/`false`)                                                                                 |
 | output_format |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `gnu`, `codacy`, `sonarqube` and `sarif`) |
 | hadolint_path |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                                                                 |
-| version       | `2.10.0`       | Use a specific version of Hadolint                                                                                                            |
+| version       | `2.12.0`       | Use a specific version of Hadolint                                                                                                            |
 
 ## Hadolint version
 
