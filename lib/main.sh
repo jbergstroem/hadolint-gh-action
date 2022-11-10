@@ -10,7 +10,7 @@ HADOLINT_PATH=${hadolint_path:-"hadolint"}
 CI=${GITHUB_ACTIONS:-"false"}
 # This variable is magic in workflows; it intercepts output and makes it availble across jobs
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/null}
-MATCHER_PREFIX=${GITHUB_ACTION_PATH:-"~"}
+MATCHER_PREFIX=${GITHUB_ACTION_PATH:-"."}
 
 function exit_with_error() {
   echo "${1}"
