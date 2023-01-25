@@ -17,10 +17,28 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.3.0
-      - name: validate
-        uses: rinchsan/renovate-config-validator@v0.0.12
+      - name: Set up Node.js
+        uses: actions/setup-node@v3.6.0
         with:
-          pattern: ".github/renovate.json"
+          node-version: 18
+      - uses: pnpm/action-setup@v2.2.4
+        name: install pnpm
+        id: pnpm-install
+        with:
+          run_install: false
+          version: 7
+      - name: Get cache directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v3.2.3
+        name: Initialize cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Validate renovate job
+        run: pnpm --package renovate dlx -c renovate-config-validator
   actionlint:
     name: Actionlint
     runs-on: ubuntu-22.04
