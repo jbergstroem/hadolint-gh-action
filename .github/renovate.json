@@ -17,6 +17,10 @@
     {
       "matchManagers": ["github-actions"],
       "commitMessageTopic": "{{depName}}"
+    },
+    {
+      "matchPackagePatterns": ["hadolint"],
+      "commitMessageTopic": "hadolint"
     }
   ],
   "regexManagers": [
@@ -36,8 +40,11 @@
       "datasourceTemplate": "github-releases"
     },
     {
-      "fileMatch": ["^action\\.yml$"],
-      "matchStrings": ["version:\\s+default: (?<currentValue>.*?)\\n"],
+      "fileMatch": ["^action\\.yml$", "^README\\.md$"],
+      "matchStrings": [
+        "version:\\s+default: (?<currentValue>.*?)\\n",
+        "version\\s+\\|\\s`(?<currentValue>.*?)`"
+      ],
       "depNameTemplate": "hadolint/hadolint",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.*)$"
