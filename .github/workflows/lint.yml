@@ -15,12 +15,27 @@ jobs:
   validate-renovate-config:
     name: Validate renovate config
     runs-on: ubuntu-22.04
+    container:
+      image: renovate/renovate:slim
+      env:
+        SERVER_URL: ${{ github.server_url }}
+        REPO_URL: ${{ github.repository }}
+        BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
-      - uses: actions/checkout@v3.3.0
-      - name: validate
-        uses: rinchsan/renovate-config-validator@v0.0.12
-        with:
-          pattern: ".github/renovate.json"
+      - name: Fetch config from branch
+        # TODO Find a way to mount the file via `volumes` or `options`
+        # `raw.githubusercontent.com` has a 5min cache timeout which is undesirable
+        # should a PR be about testing renovate configs.
+        #
+        # During the PR lifecycle, many permutations of volume mounting was tried -
+        # but the only option that worked was a DinD approach, which is much slower
+        # (almost back at old performance).
+        #
+        # A final option could be to upstream a PR that checks in a package-lock so
+        # a hash can be used (for the previous action used).
+        run: curl -Ls -o /tmp/renovate.json "${SERVER_URL}/${REPO_URL}/raw/${BRANCH_NAME}/.github/renovate.json"
+      - name: Validate config
+        run: renovate-config-validator /tmp/renovate.json
   actionlint:
     name: Actionlint
     runs-on: ubuntu-22.04
