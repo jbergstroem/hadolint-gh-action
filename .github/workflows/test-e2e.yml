@@ -5,7 +5,7 @@ on:
       - "**.sh"
       - "test/**"
       - "action.yml"
-      - ".github/workflows/test.yml"
+      - ".github/workflows/test-e2e.yml"
 
 jobs:
   gh-action-default:
@@ -40,3 +40,4 @@ jobs:
       - uses: ./
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
+          annotate: false
