@@ -27,6 +27,10 @@
       "commitMessageTopic": "actionlint"
     },
     {
+      "matchPackageNames": ["bash_unit"],
+      "commitMessageTopic": "bash_unit"
+    },
+    {
       "matchPackagePatterns": ["mvdan/sh"],
       "commitMessageTopic": "shfmt"
     },
