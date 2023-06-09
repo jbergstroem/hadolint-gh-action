@@ -40,7 +40,7 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.1
+      - uses: actions/checkout@v3.5.3
       - name: Install Actionlint
         env:
           version: "1.6.24"
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: Prettier
     steps:
-      - uses: actions/checkout@v3.5.1
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-node@v3.6.0
         with:
           node-version: "18.11.0"
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: Shellcheck
     steps:
-      - uses: actions/checkout@v3.5.1
+      - uses: actions/checkout@v3.5.3
       - name: Install Shellcheck
         env:
           version: "0.9.0"
@@ -78,7 +78,7 @@ jobs:
     name: Shfmt
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.1
+      - uses: actions/checkout@v3.5.3
       - name: Install shfmt
         env:
           version: "3.6.0"
