@@ -12,7 +12,7 @@ jobs:
     name: Action validates dockerfiles
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
@@ -20,7 +20,7 @@ jobs:
     name: Action supports custom version
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3
       - uses: ./
         id: check
         with:
@@ -36,7 +36,7 @@ jobs:
     name: Action supports glob expansion
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3
       - uses: ./
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
