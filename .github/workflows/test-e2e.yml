@@ -32,6 +32,7 @@ jobs:
             echo "::error::Version mismatch: \"${{ steps.check.outputs.hadolint_version }}\" does not equal \"2.9.0-no-git\""
             exit 1
           fi
+
   gh-action-glob:
     name: Action supports glob expansion
     runs-on: ubuntu-22.04
@@ -41,3 +42,28 @@ jobs:
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
           annotate: false
+  # https://github.com/jbergstroem/hadolint-gh-action/issues/134
+  gh-action-multiple-invocations:
+    name: Action supports multiple invocations in a job
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      # Download and run default version
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+      # Download and run custom version
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+          version: 2.11.0
+      # Redownload if binary is broken
+      - run: chmod -x /usr/local/bin/hadolint
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+          version: 2.11.0
+      # Download and run default version again
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
