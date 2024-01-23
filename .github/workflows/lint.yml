@@ -73,7 +73,7 @@ jobs:
       - name: Verify shell scripts
         run: |
           echo "::add-matcher::.github/matcher-shellcheck.json"
-          shellcheck -f gcc -S warning hadolint.sh lib/*.sh test/*.sh
+          shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
   shfmt:
     name: Shfmt
     runs-on: ubuntu-22.04
@@ -84,4 +84,4 @@ jobs:
           version: "3.7.0"
         run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
       - name: Lint shell scripts
-        run: shfmt -i 2 -d hadolint.sh lib/*.sh test/*.sh
+        run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh

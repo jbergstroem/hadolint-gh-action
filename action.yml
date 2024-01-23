@@ -45,13 +45,10 @@ runs:
   steps:
     - name: Download hadolint and make it available in path
       shell: bash
-      run: |
-        echo "::debug::Downloading Hadolint ${{ inputs.version }}"
-        mkdir ${{ github.action_path }}/bin
-        curl -L -s -o ${{ github.action_path }}/bin/hadolint \
-          "https://github.com/hadolint/hadolint/releases/download/v${{ inputs.version }}/hadolint-Linux-x86_64"
-        chmod +x ${{ github.action_path }}/bin/hadolint
-        echo "${{ github.action_path }}/bin" >> "${GITHUB_PATH}"
+      env:
+        version: ${{ inputs.version }}
+      run: ${{ github.action_path }}/install.sh
+
     - name: Invoke hadolint.sh
       id: run
       shell: bash
