@@ -39,13 +39,8 @@ jobs:
     name: Prettier
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install prettier
-        run: npm install -g prettier
-      - name: Run prettier
-        run: prettier -c .
+      - uses: oven-sh/setup-bun@v1
+      - run: bunx prettier -c .
   shellcheck:
     runs-on: ubuntu-22.04
     name: Shellcheck
