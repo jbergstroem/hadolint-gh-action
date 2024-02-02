@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-CI=${GITHUB_ACTIONS:-}
-
 [[ -n "${DEBUG}" ]] && set -x
 set -euo pipefail
 shopt -s nullglob globstar
 
-[[ -z ${CI} ]] && echo "Will only run in Github Actions" && exit 1
-
+CI=${GITHUB_ACTIONS:-}
 VERSION=${version:-}
+
+[[ -z ${CI} ]] && echo "Will only run in Github Actions" && exit 1
 
 DOWNLOAD="false"
 # Check if hadolint is installed and compare versions to decide
