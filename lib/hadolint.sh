@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 HADOLINT_PATH=${hadolint_path:-"hadolint"}
-HADOLINT_GH_ACTION_VERSION="1.11.0"
+HADOLINT_GH_ACTION_VERSION="1.12.0"
 
 function output_hadolint_version() {
   local OUTPUT=""
