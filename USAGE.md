@@ -16,9 +16,9 @@ on: pull_request
 jobs:
   hadolint:
     runs-on: ubuntu-22.04
-    name: "Hadolint"
+    name: Hadolint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: jbergstroem/hadolint-gh-action@v1
     with:
       # ignore warnings (but still fail on errors) from hadolint
@@ -51,9 +51,9 @@ on:
 jobs:
   hadolint:
     runs-on: ubuntu-22.04
-    name: "Hadolint"
+    name: Hadolint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
@@ -79,15 +79,15 @@ on: pull_request
 jobs:
   hadolint:
     runs-on: ubuntu-22.04
-    name: "Hadolint"
+    name: Hadolint"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: jbergstroem/hadolint-gh-action@v1
     with:
       dockerfile: "Dockerfile path/to/my/other/Dockerfile"
 ```
 
-### Only pass Dockerfiles that are changes in the PR
+### Only pass Dockerfiles that are changed in the PR
 
 In certain use-cases – for instance when you have a monorepo with a lot of Dockerfiles; you may
 only want to pass the files that are changed in the PR. This would make processing faster.
@@ -102,12 +102,12 @@ on: pull_request
 jobs:
   hadolint:
     runs-on: ubuntu-22.04
-    name: "Hadolint"
+    name: Hadolint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v9.3
+        uses: tj-actions/changed-files@v42
         with:
           # Pass what names/filters you want to catch
           files: |

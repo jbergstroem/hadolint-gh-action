@@ -8,7 +8,7 @@ OUTPUT_FORMAT=${output_format:-}
 HADOLINT_PATH=${hadolint_path:-"hadolint"}
 # https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
 CI=${GITHUB_ACTIONS:-"false"}
-# This variable is magic in workflows; it intercepts output and makes it availble across jobs
+# This variable is magic in workflows; it intercepts output and makes it available across jobs
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/null}
 MATCHER_PREFIX=${GITHUB_ACTION_PATH:-"."}
 
