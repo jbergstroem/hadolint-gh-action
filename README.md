@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: Hadolint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
