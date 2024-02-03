@@ -6,6 +6,7 @@ shopt -s nullglob globstar
 
 CI=${GITHUB_ACTIONS:-}
 VERSION=${version:-}
+EXTRACT_VERSION_CMD="hadolint --version | sed 's/-no-git//' | cut -d ' ' -f 4"
 
 [[ -z ${CI} ]] && echo "Will only run in Github Actions" && exit 1
 
@@ -13,7 +14,7 @@ DOWNLOAD="false"
 # Check if hadolint is installed and compare versions to decide
 # if we should download a new version
 if [ -x "$(command -v hadolint)" ]; then
-  INSTALLED_VERSION=$(hadolint --version | cut -d " " -f 4 2>&1)
+  INSTALLED_VERSION=$(eval "${EXTRACT_VERSION_CMD}" 2>&1)
   echo "::debug::Found existing Hadolint version: ${INSTALLED_VERSION}"
   if [ "${INSTALLED_VERSION}" != "${VERSION}" ]; then
     echo "::info::Hadolint version (${INSTALLED_VERSION}) does not match requested version (${VERSION})"
@@ -35,5 +36,5 @@ if [ "${DOWNLOAD}" == "true" ]; then
   chmod +x /usr/local/bin/hadolint
 fi
 
-new_version=$(hadolint --version | cut -d ' ' -f 4 2>&1)
+new_version=$(eval "${EXTRACT_VERSION_CMD}" 2>&1)
 echo "::debug::Hadolint ${new_version} installed successfully"
