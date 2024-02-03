@@ -9,13 +9,14 @@ on:
 
 jobs:
   gh-action-default:
-    name: Action validates dockerfiles
+    name: Action validates Dockerfiles
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
+
   gh-action-version:
     name: Action supports custom version
     runs-on: ubuntu-22.04
@@ -25,11 +26,14 @@ jobs:
         id: check
         with:
           dockerfile: test/fixtures/Dockerfile-valid
-          version: 2.9.0
-      - name: check hadolint version
+          version: 2.10.0
+      - name: Compare versions
+        env:
+          HADOLINT_VERSION: ${{ steps.check.outputs.hadolint_version }}
+          REQUESTED_VERSION: 2.10.0
         run: |
-          if [[ ! "${{ steps.check.outputs.hadolint_version }}" == "2.9.0-no-git" ]]; then
-            echo "::error::Version mismatch: \"${{ steps.check.outputs.hadolint_version }}\" does not equal \"2.9.0-no-git\""
+          if [[ "${HADOLINT_VERSION}" != "${REQUESTED_VERSION}" ]]; then
+            echo "::error::Version mismatch: \"${HADOLINT_VERSION}\" does not equal \"${REQUESTED_VERSION}\""
             exit 1
           fi
 
@@ -42,6 +46,7 @@ jobs:
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
           annotate: false
+
   # https://github.com/jbergstroem/hadolint-gh-action/issues/134
   gh-action-multiple-invocations:
     name: Action supports multiple invocations in a job
@@ -52,18 +57,47 @@ jobs:
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
+          annotate: false
       # Download and run custom version
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
           version: 2.11.0
-      # Redownload if binary is broken
+          annotate: false
+      # Redownload if binary is broken, in this case a non-executable
       - run: chmod -x /usr/local/bin/hadolint
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
           version: 2.11.0
+          annotate: false
       # Download and run default version again
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
+          annotate: false
+
+  # https://github.com/jbergstroem/hadolint-gh-action/issues/142
+  gh-action-version-variations:
+    name: Action supports version variations
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        version: ["1.23.0", "2.9.0", "2.12.0"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: check
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+          annotate: false
+          version: ${{ matrix.version }}
+      - name: Compare versions
+        env:
+          HADOLINT_VERSION: ${{ steps.check.outputs.hadolint_version }}
+          REQUESTED_VERSION: ${{ matrix.version }}
+        run: |
+          if [[ "${HADOLINT_VERSION}" != "${REQUESTED_VERSION}" ]]; then
+            echo "::error::Version mismatch: \"${HADOLINT_VERSION}\" does not equal \"${REQUESTED_VERSION}\""
+            exit 1
+          fi
