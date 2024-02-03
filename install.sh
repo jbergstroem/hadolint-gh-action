@@ -35,4 +35,5 @@ if [ "${DOWNLOAD}" == "true" ]; then
   chmod +x /usr/local/bin/hadolint
 fi
 
-echo "::debug:: $(hadolint --version | cut -d " " -f 4 2>&1) installed successfully"
+new_version=$(hadolint --version | cut -d ' ' -f 4 2>&1)
+echo "::debug::Hadolint ${new_version} installed successfully"
