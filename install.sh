@@ -27,13 +27,15 @@ fi
 # Download hadolint if necessary
 if [ "${DOWNLOAD}" == "true" ]; then
   echo "::debug::Downloading Hadolint ${VERSION}"
-  # https://github.com/actions/runner-images/issues/3727
-  # /usr/local/bin exists and is writable by any user
   curl -s -L --fail -w 1 -o /tmp/hadolint \
     "https://github.com/hadolint/hadolint/releases/download/v${VERSION}/hadolint-Linux-x86_64" ||
     (echo "::error::Hadolint (version: ${VERSION}) could not be found. Exiting." && exit 1)
-  mv /tmp/hadolint /usr/local/bin/hadolint
-  chmod +x /usr/local/bin/hadolint
+  chmod +x /tmp/hadolint
+  # https://github.com/actions/runner-images/issues/3727
+  # /usr/local/bin exists and is writable by any user
+  # but some self hosted runners requires superpowers to write there
+  # https://github.com/jbergstroem/hadolint-gh-action/issues/144
+  sudo mv /tmp/hadolint /usr/local/bin/hadolint
 fi
 
 new_version=$(eval "${EXTRACT_VERSION_CMD}" 2>&1)
