@@ -101,3 +101,24 @@ jobs:
             echo "::error::Version mismatch: \"${HADOLINT_VERSION}\" does not equal \"${REQUESTED_VERSION}\""
             exit 1
           fi
+
+  gh-action-output:
+    name: Action populates output if configured
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: action-output
+        with:
+          dockerfile: "test/fixtures/Dockerfile-valid"
+          annotate: false
+          output_format: json
+      - name: Compare output
+        env:
+          OUTPUT: ${{ steps.action-output.outputs.hadolint_output }}
+          ASSERT: '[{"code":"DL3018","column":1,"file":"test/fixtures/Dockerfile-warning","level":"warning","line":3,"message":"Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`"}]'
+        run: |
+          if [[ "${OUTPUT}" != "${ASSERT}" ]]; then
+            echo "::error::Output mismatch: \"${OUTPUT}\" does not equal \"${ASSERT}\""
+            exit 1
+          fi
