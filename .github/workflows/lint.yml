@@ -14,7 +14,7 @@ on:
 jobs:
   validate-renovate-config:
     name: Validate renovate config
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -23,7 +23,7 @@ jobs:
         run: renovate-config-validator .github/renovate.json
   actionlint:
     name: Actionlint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Install Actionlint
@@ -35,14 +35,14 @@ jobs:
           echo "::add-matcher::.github/matcher-actionlint.json"
           actionlint -color
   prettier:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Prettier
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bunx prettier -c .
   shellcheck:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Shellcheck
     steps:
       - uses: actions/checkout@v4
@@ -56,7 +56,7 @@ jobs:
           shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
   shfmt:
     name: Shfmt
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Install shfmt
@@ -67,7 +67,7 @@ jobs:
         run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
   typos:
     name: Typos
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Check for typos
