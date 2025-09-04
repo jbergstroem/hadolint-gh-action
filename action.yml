@@ -15,7 +15,7 @@ inputs:
     description: Fail CI based on hadolint output (`-1` never, `0` error, `1` warning, `2` info/style)
     required: false
   annotate:
-    default: true
+    default: "true"
     description: Annotate code inline in the github PR viewer (`true`/`false`)
     required: true
   output_format:
