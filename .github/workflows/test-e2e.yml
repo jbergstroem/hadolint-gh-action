@@ -117,7 +117,7 @@ jobs:
       - name: Compare output
         env:
           OUTPUT: ${{ steps.action-output.outputs.hadolint_output }}
-          ASSERT: '[{"code":"DL3018","column":1,"file":"test/fixtures/Dockerfile-warning","level":"warning","line":3,"message":"Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`"}]'
+          ASSERT: '"[{"code":"DL3018","column":1,"file":"test/fixtures/Dockerfile-warning","level":"warning","line":3,"message":"Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`"}]"'
         run: |
           if [[ "${OUTPUT}" != "${ASSERT}" ]]; then
             echo "::error::Output mismatch: \"${OUTPUT}\" does not equal \"${ASSERT}\""
