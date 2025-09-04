@@ -102,6 +102,7 @@ jobs:
             exit 1
           fi
 
+  # https://github.com/jbergstroem/hadolint-gh-action/issues/147
   gh-action-output:
     name: Action populates output if configured
     runs-on: ubuntu-22.04
@@ -110,7 +111,7 @@ jobs:
       - uses: ./
         id: action-output
         with:
-          dockerfile: "test/fixtures/Dockerfile-valid"
+          dockerfile: "test/fixtures/Dockerfile-warning"
           annotate: false
           output_format: json
       - name: Compare output
