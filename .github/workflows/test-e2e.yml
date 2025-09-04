@@ -12,7 +12,7 @@ jobs:
     name: Action validates Dockerfiles
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./
         with:
           dockerfile: test/fixtures/Dockerfile-valid
@@ -21,7 +21,7 @@ jobs:
     name: Action supports custom version
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./
         id: check
         with:
@@ -41,7 +41,7 @@ jobs:
     name: Action supports glob expansion
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./
         with:
           dockerfile: "test/**/Dockerfile-glob-*"
@@ -52,7 +52,7 @@ jobs:
     name: Action supports multiple invocations in a job
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # Download and run default version
       - uses: ./
         with:
@@ -85,7 +85,7 @@ jobs:
       matrix:
         version: ["1.23.0", "2.9.0", "2.12.0", "2.13.1"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./
         id: check
         with:
