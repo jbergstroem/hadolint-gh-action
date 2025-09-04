@@ -71,4 +71,4 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Check for typos
-        uses: crate-ci/typos@v1.36.1
+        uses: crate-ci/typos@v1.36.2
