@@ -10,7 +10,7 @@ on:
 jobs:
   gh-action-default:
     name: Action validates Dockerfiles
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: ./
@@ -19,7 +19,7 @@ jobs:
 
   gh-action-version:
     name: Action supports custom version
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: ./
@@ -39,7 +39,7 @@ jobs:
 
   gh-action-glob:
     name: Action supports glob expansion
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: ./
@@ -50,7 +50,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/134
   gh-action-multiple-invocations:
     name: Action supports multiple invocations in a job
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       # Download and run default version
@@ -80,7 +80,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/142
   gh-action-version-variations:
     name: Action supports version variations
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         version: ["1.23.0", "2.9.0", "2.12.0", "2.13.1"]
