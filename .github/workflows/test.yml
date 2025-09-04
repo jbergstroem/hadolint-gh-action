@@ -12,7 +12,7 @@ jobs:
     name: Bash unit tests
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Get Hadolint version
         # yq is like jq for yaml
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
