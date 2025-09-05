@@ -105,7 +105,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/147
   gh-action-output:
     name: Action populates output if configured
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: ./
