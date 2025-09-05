@@ -1,6 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "baseBranches": ["main"],
+  "baseBranchPatterns": [
+    "main"
+  ],
   "extends": [
     ":dependencyDashboard",
     ":disableRateLimiting",
@@ -9,40 +11,60 @@
     ":separateMajorReleases",
     "group:allNonMajor"
   ],
-  "ignorePaths": ["**/test/fixtures**"],
-  "enabledManagers": ["github-actions", "regex"],
+  "ignorePaths": [
+    "**/test/fixtures**"
+  ],
+  "enabledManagers": [
+    "github-actions",
+    "custom.regex"
+  ],
   "commitMessageAction": "",
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "{{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
   "packageRules": [
     {
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "commitMessageTopic": "{{depName}}"
     },
     {
-      "matchPackagePatterns": ["hadolint"],
-      "commitMessageTopic": "hadolint"
+      "commitMessageTopic": "hadolint",
+      "matchPackageNames": [
+        "/hadolint/"
+      ]
     },
     {
-      "matchPackagePatterns": ["actionlint"],
-      "commitMessageTopic": "actionlint"
+      "commitMessageTopic": "actionlint",
+      "matchPackageNames": [
+        "/actionlint/"
+      ]
     },
     {
-      "matchPackagePatterns": ["bash_unit"],
-      "commitMessageTopic": "bash_unit"
+      "commitMessageTopic": "bash_unit",
+      "matchPackageNames": [
+        "/bash_unit/"
+      ]
     },
     {
-      "matchPackagePatterns": ["mvdan/sh"],
-      "commitMessageTopic": "shfmt"
+      "commitMessageTopic": "shfmt",
+      "matchPackageNames": [
+        "/mvdan/sh/"
+      ]
     },
     {
-      "matchPackageNames": ["shellcheck"],
+      "matchPackageNames": [
+        "shellcheck"
+      ],
       "commitMessageTopic": "shellcheck"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^\\.github/workflows/[^/]+\\.yml$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/[^/]+\\.yml$/"
+      ],
       "matchStrings": [
         "version: \"(?<currentValue>.*?)\"\\s+run: curl -Ls( -o \\w+)? \"https://github.com/(?<depName>.*?)/releases/download.*",
         "https://github\\.com/(?<depName>.*?)/archive/refs/tags/v(?<currentValue>.*?)\\.tar\\.gz"
@@ -51,13 +73,22 @@
       "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
-      "fileMatch": ["^\\.github/workflows/[^/]+\\.yml$"],
-      "matchStrings": ["node-version: \"(?<currentValue>.*?)\"\\n"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/[^/]+\\.yml$/"
+      ],
+      "matchStrings": [
+        "node-version: \"(?<currentValue>.*?)\"\\n"
+      ],
       "depNameTemplate": "actions/node-versions",
       "datasourceTemplate": "github-releases"
     },
     {
-      "fileMatch": ["^action\\.yml$", "^README\\.md$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^action\\.yml$/",
+        "/^README\\.md$/"
+      ],
       "matchStrings": [
         "version:\\s+default: (?<currentValue>.*?)\\n",
         "version\\s+\\|\\s`(?<currentValue>.*?)`"
@@ -67,7 +98,9 @@
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
-  "labels": ["type: dependencies"],
+  "labels": [
+    "type: dependencies"
+  ],
   "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
   "prHeader": "",
   "prFooter": ""
