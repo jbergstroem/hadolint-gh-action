@@ -34,13 +34,21 @@ jobs:
         run: |
           echo "::add-matcher::.github/matcher-actionlint.json"
           actionlint -color
-  prettier:
+  biome:
+    name: Biome
     runs-on: ubuntu-24.04
-    name: Prettier
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
-      - uses: oven-sh/setup-bun@v2
-      - run: bunx prettier -c .
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+      - name: Run Biome
+        run: biome ci .
+
   shellcheck:
     runs-on: ubuntu-24.04
     name: Shellcheck
