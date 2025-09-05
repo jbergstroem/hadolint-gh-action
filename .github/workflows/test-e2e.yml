@@ -107,7 +107,7 @@ jobs:
     name: Action populates output if configured
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./
         id: action-output
         with:
