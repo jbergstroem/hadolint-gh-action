@@ -2,10 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "baseBranches": ["main"],
   "extends": [
-    ":separateMajorReleases",
-    ":rebaseStalePrs",
+    ":dependencyDashboard",
     ":disableRateLimiting",
+    ":rebaseStalePrs",
     ":semanticCommits",
+    ":separateMajorReleases",
     "group:allNonMajor"
   ],
   "ignorePaths": ["**/test/fixtures**"],
