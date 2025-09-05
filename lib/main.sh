@@ -49,7 +49,9 @@ function run() {
   # to how output formatting works.
   if [[ -n "${OUTPUT_FORMAT}" ]]; then
     OUTPUT=$(eval "${HADOLINT_PATH}" --no-fail --no-color "${CONFIG}" -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
-    echo "hadolint_output=${OUTPUT//$'\n'/'%0A'} >> \$GITHUB_OUTPUT"
+    local HADOLINT_OUTPUT_LINE="hadolint_output=\"${OUTPUT//$'\n'/'%0A'}\""
+    echo "${HADOLINT_OUTPUT_LINE}"
+    [[ "${CI}" == "true" ]] && echo "${HADOLINT_OUTPUT_LINE}" >>"${GITHUB_OUTPUT}"
   fi
 
   # Eval to remove empty vars
