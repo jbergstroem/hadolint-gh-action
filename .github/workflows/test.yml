@@ -31,6 +31,9 @@ jobs:
       - run: bash_unit test/*.sh
       - name: Install bash_unit
         run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C /usr/local/bin "*/bash_unit"
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
       - name: Install bashcov
         run: gem install bashcov
       - name: Run suite
