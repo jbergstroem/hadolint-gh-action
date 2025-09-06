@@ -59,8 +59,8 @@ test_missing_jq_binary() {
   # Mock command -v to return false only for jq (hadolint exists)
   function command() {
     case "$2" in
-      "jq") return 1 ;;
-      *) /usr/bin/command "$@" ;;
+    "jq") return 1 ;;
+    *) /usr/bin/command "$@" ;;
     esac
   }
   export -f command
