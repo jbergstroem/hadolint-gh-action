@@ -11,7 +11,7 @@ inputs:
     description: Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)
     required: false
   error_level:
-    default: 0
+    default: "0"
     description: Fail CI based on hadolint output (`-1` never, `0` error, `1` warning, `2` info/style)
     required: false
   annotate:
