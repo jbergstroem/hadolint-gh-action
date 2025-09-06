@@ -92,7 +92,7 @@ test_ci_vs_non_ci_hadolint_version_output() {
   GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
   assert "cat ${TMPFILE} | grep -q hadolint_version" "CI mode should write version to GITHUB_OUTPUT"
   # Clear the file
-  > "${TMPFILE}"
+  >"${TMPFILE}"
   # Test non-CI behavior - should NOT write version to output file
   GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=false dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
   assert_status_code 1 "cat ${TMPFILE} | grep -q hadolint_version" "non-CI mode should not write version to GITHUB_OUTPUT"
