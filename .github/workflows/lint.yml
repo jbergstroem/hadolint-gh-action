@@ -4,9 +4,7 @@ on:
     paths:
       # actionlint
       - ".github/workflows/*.yml"
-      # prettier
-      - "**.md"
-      - "**.yml"
+      # biome
       - "**.json"
       # shellcheck & shfmt
       - "**.sh"
@@ -17,10 +15,18 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            .github/renovate.json
       - uses: oven-sh/setup-bun@v2
       - run: bun install -g renovate
       - name: Validate config
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: renovate-config-validator .github/renovate.json
+
   actionlint:
     name: Actionlint
     runs-on: ubuntu-24.04
@@ -34,6 +40,7 @@ jobs:
         run: |
           echo "::add-matcher::.github/matcher-actionlint.json"
           actionlint -color
+
   biome:
     name: Biome
     runs-on: ubuntu-24.04
@@ -62,6 +69,7 @@ jobs:
         run: |
           echo "::add-matcher::.github/matcher-shellcheck.json"
           shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
+
   shfmt:
     name: Shfmt
     runs-on: ubuntu-24.04
@@ -73,6 +81,7 @@ jobs:
         run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
       - name: Lint shell scripts
         run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
+
   typos:
     name: Typos
     runs-on: ubuntu-24.04
