@@ -4,9 +4,7 @@ on:
     paths:
       # actionlint
       - ".github/workflows/*.yml"
-      # prettier
-      - "**.md"
-      - "**.yml"
+      # biome
       - "**.json"
       # shellcheck & shfmt
       - "**.sh"
