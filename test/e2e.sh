@@ -84,3 +84,23 @@ test_custom_output_format() {
 test_bash_glob_expansion() {
   assert "output_format=tty dockerfile=fixtures/**/Dockerfile-glob* ${HL}" "expand shell globs before passing to hadolint"
 }
+
+test_ci_vs_non_ci_hadolint_version_output() {
+  local TMPFILE=""
+  TMPFILE="$(mktemp ${MKDIR_PREFIX})"
+  # Test CI behavior - should write version to GITHUB_OUTPUT
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
+  assert "cat ${TMPFILE} | grep -q hadolint_version" "CI mode should write version to GITHUB_OUTPUT"
+  # Clear the file
+  > "${TMPFILE}"
+  # Test non-CI behavior - should NOT write version to output file
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=false dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
+  assert_status_code 1 "cat ${TMPFILE} | grep -q hadolint_version" "non-CI mode should not write version to GITHUB_OUTPUT"
+}
+
+test_ci_vs_non_ci_annotation_behavior() {
+  # Test CI with annotation enabled (default) - should add matcher
+  assert "GITHUB_ACTIONS=true dockerfile=fixtures/Dockerfile-error ${HL} | grep '::add-matcher::'" "CI mode with annotate=true should add matcher"
+  # Test non-CI - should not add matcher even with annotate=true
+  assert_status_code 1 "GITHUB_ACTIONS=false dockerfile=fixtures/Dockerfile-error ${HL} | grep '::add-matcher::'" "non-CI mode should not add matcher"
+}

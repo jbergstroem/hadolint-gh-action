@@ -2,10 +2,9 @@ name: Lint
 on:
   pull_request:
     paths:
-      # prettier
-      - "**.md"
-      - "**.yml"
+      # biome
       - "**.json"
+      - "**.md"
       # shellcheck & shfmt
       - "**.sh"
 
