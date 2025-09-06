@@ -37,7 +37,7 @@ jobs:
       - name: Install bashcov
         run: gem install bashcov
       - name: Run suite
-        run: bash_unit test/*.sh
+        run: bashcov bash_unit test/*.sh
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
