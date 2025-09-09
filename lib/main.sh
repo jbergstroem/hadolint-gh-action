@@ -60,6 +60,9 @@ function run() {
 
   # Always write output
   echo "${OUTPUT}"
+  
+  # Remove problem matcher
+  [[ "${ANNOTATE}" == "true" ]] && [[ "${CI}" == "true" ]] && echo "::remove-matcher::${MATCHER_PREFIX}/.github/problem-matcher.json"
 
   local EXITCODE=0
   # Different exit depending on verbosity
