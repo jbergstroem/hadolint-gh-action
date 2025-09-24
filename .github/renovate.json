@@ -38,18 +38,12 @@
 			"matchPackageNames": ["shellcheck"],
 			"commitMessageTopic": "shellcheck"
 		},
-    {
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch",
-      "matchPackageNames": [
-        "*",
-        "!/hadolint/"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
-    }
+		{
+			"groupName": "all non-major dependencies",
+			"groupSlug": "all-minor-patch",
+			"matchPackageNames": ["*", "!/hadolint/"],
+			"matchUpdateTypes": ["minor", "patch"]
+		}
 	],
 	"customManagers": [
 		{
