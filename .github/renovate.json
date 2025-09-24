@@ -6,8 +6,7 @@
 		":disableRateLimiting",
 		":rebaseStalePrs",
 		":semanticCommits",
-		":separateMajorReleases",
-		"group:allNonMajor"
+		":separateMajorReleases"
 	],
 	"ignorePaths": ["**/test/fixtures**"],
 	"enabledManagers": ["github-actions", "custom.regex"],
@@ -38,6 +37,12 @@
 		{
 			"matchPackageNames": ["shellcheck"],
 			"commitMessageTopic": "shellcheck"
+		},
+		{
+			"groupName": "all non-major dependencies",
+			"groupSlug": "all-minor-patch",
+			"matchPackageNames": ["*", "!/hadolint/"],
+			"matchUpdateTypes": ["minor", "patch"]
 		}
 	],
 	"customManagers": [
