@@ -16,7 +16,7 @@ jobs:
     name: Validate renovate config
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
       - run: bun install -g renovate
       - name: Validate config
@@ -25,7 +25,7 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Actionlint
         env:
           version: "1.7.7"
@@ -41,7 +41,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
       - name: Setup Biome
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Shellcheck
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Shellcheck
         env:
           version: "0.11.0"
@@ -66,7 +66,7 @@ jobs:
     name: Shfmt
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install shfmt
         env:
           version: "3.12.0"
@@ -77,6 +77,6 @@ jobs:
     name: Typos
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Check for typos
         uses: crate-ci/typos@v1.36.2
