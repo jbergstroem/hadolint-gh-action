@@ -13,14 +13,23 @@ on:
 
 jobs:
   validate-renovate-config:
-    name: Validate renovate config
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
+        id: changed-files
+        with:
+          files: .github/renovate.json
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
+        if: steps.changed-files.outputs.any_changed == 'true'
       - run: bun install -g renovate
-      - name: Validate config
-        run: renovate-config-validator .github/renovate.json
+        if: steps.changed-files.outputs.any_changed == 'true'
+      - run: renovate-config-validator .github/renovate.json
+        if: steps.changed-files.outputs.any_changed == 'true'
+
   actionlint:
     name: Actionlint
     runs-on: ubuntu-24.04
