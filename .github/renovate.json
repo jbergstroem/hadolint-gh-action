@@ -73,6 +73,16 @@
 			"depNameTemplate": "hadolint/hadolint",
 			"datasourceTemplate": "github-releases",
 			"extractVersionTemplate": "^v(?<version>.*)$"
+		},
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["/^\\.github/workflows/test-e2e\\.yml$/"],
+			"matchStrings": [
+				"# renovate: datasource=github-releases depName=hadolint/hadolint\\n\\s+matrix:\\n\\s+version: \\[.*\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\"\\]"
+			],
+			"depNameTemplate": "hadolint/hadolint",
+			"datasourceTemplate": "github-releases",
+			"extractVersionTemplate": "^v(?<version>.*)$"
 		}
 	],
 	"labels": ["type: dependencies"],
