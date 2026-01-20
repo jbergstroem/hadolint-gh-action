@@ -41,14 +41,14 @@ function run() {
   # If output_format is passed, we unfortunately need to run hadolint twice due
   # to how output formatting works.
   if [[ -n "${OUTPUT_FORMAT}" ]]; then
-    OUTPUT=$("${HADOLINT_PATH}" --no-fail --no-color ${CONFIG} -f "${OUTPUT_FORMAT}" ${DOCKERFILE})
+    OUTPUT=$("${HADOLINT_PATH}" --no-fail --no-color ${CONFIG} -f "${OUTPUT_FORMAT}" "${DOCKERFILE}")
     local HADOLINT_OUTPUT_LINE="hadolint_output=\"${OUTPUT//$'\n'/'%0A'}\""
     echo "${HADOLINT_OUTPUT_LINE}"
     [[ "${CI}" == "true" ]] && echo "${HADOLINT_OUTPUT_LINE}" >>"${GITHUB_OUTPUT}"
   fi
 
   # Don't care about output if annotate is set to false - exit code is still passed
-  OUTPUT=$("${HADOLINT_PATH}" --no-fail --no-color ${CONFIG} -f tty ${DOCKERFILE})
+  OUTPUT=$("${HADOLINT_PATH}" --no-fail --no-color ${CONFIG} -f tty "${DOCKERFILE}")
 
   # Always write output
   echo "${OUTPUT}"
