@@ -42,5 +42,8 @@ jobs:
             ../coverage
             bash_unit unit.sh e2e.sh"
       - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        if: ${{ !cancelled() }}
         with:
-          files: coverage/bash_unit/cobertura.xml
+          use_oidc: true
+          files: ./coverage/bash_unit/cobertura.xml
+          disable_search: true
