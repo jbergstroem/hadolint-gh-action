@@ -42,6 +42,7 @@ jobs:
             --exclude-pattern=/test/,install.sh
             ../coverage
             bash_unit unit.sh e2e.sh"
+      - run: ls -al coverage
       - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         if: ${{ !cancelled() }}
         with:
