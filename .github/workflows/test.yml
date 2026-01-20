@@ -29,17 +29,33 @@ jobs:
           sudo mv hadolint /usr/local/bin/hadolint
       - run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C /usr/local/bin "*/bash_unit"
       - run: bash_unit test/*.sh
+      - uses: actions/checkout@v5
+      - name: Get Hadolint version
+        # yq is like jq for yaml
+        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
+        # shellcheck disable=SC2034
+        run: echo version="$(yq .inputs.version.default action.yml)" >> "${GITHUB_ENV}"
+      - name: Install Hadolint
+        run: |
+          echo "::debug::Downloading Hadolint ${{ env.version }}"
+          curl -L -s -o hadolint "https://github.com/hadolint/hadolint/releases/download/v${{ env.version }}/hadolint-Linux-x86_64"
+          chmod +x hadolint
+          sudo mv hadolint /usr/local/bin/hadolint
       - name: Install bash_unit
-        run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C /usr/local/bin "*/bash_unit"
-      - uses: ruby/setup-ruby@v1
+        run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C bin "*/bash_unit"
+      - name: Run suite with coverage
+        uses: docker://kcov/kcov:latest
         with:
-          ruby-version: "3.4"
-      - name: Install bashcov
-        run: gem install bashcov
-      - name: Run suite
-        run: bashcov bash_unit test/*.sh
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+          entrypoint: sh
+          args: >-
+            -ceux
+            "export PATH=$GITHUB_WORKSPACE/bin:$PATH &&
+            cd test && kcov
+            --bash-parse-files-in-dir=..
+            --include-pattern=/lib/,hadolint.sh
+            --exclude-pattern=/test/,install.sh
+            ../coverage
+            bash_unit unit.sh e2e.sh"
+      - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage
+          files: coverage/bash_unit/cobertura.xml
