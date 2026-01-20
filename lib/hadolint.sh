@@ -4,8 +4,8 @@ HADOLINT_PATH=${hadolint_path:-"hadolint"}
 HADOLINT_GH_ACTION_VERSION="1.12.0"
 
 function output_hadolint_version() {
-  local OUTPUT=""
-  OUTPUT=$(eval "${HADOLINT_PATH}" --version | sed 's/-no-git//' | cut -d " " -f 4)
+  local version
+  read -r _ _ _ version < <("${HADOLINT_PATH}" --version)
   echo "hadolint_gh_action_version=${HADOLINT_GH_ACTION_VERSION}"
-  echo "hadolint_version=${OUTPUT}"
+  echo "hadolint_version=${version%-no-git}"
 }
