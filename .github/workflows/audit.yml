@@ -39,5 +39,5 @@ jobs:
         env:
           version: "1.7.8"
       - run: |
-          echo "::add-matcher::.github/matchers/actionlint.json"
+          echo "::add-matcher::.github/matcher-actionlint.json"
           actionlint -color
