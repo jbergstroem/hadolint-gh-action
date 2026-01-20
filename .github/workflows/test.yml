@@ -1,4 +1,4 @@
-name: Test
+name: test
 on:
   pull_request:
     paths:
@@ -19,20 +19,22 @@ jobs:
           persist-credentials: false
         # yq is like jq for yaml
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
-      - name: Install Hadolint
-        run: |
+      - run: |
           version="$(yq .inputs.version.default action.yml)"
           echo "::debug::Downloading Hadolint ${version}"
           mkdir -p bin
           curl -L -s -o bin/hadolint "https://github.com/hadolint/hadolint/releases/download/v${version}/hadolint-Linux-x86_64"
           chmod +x bin/hadolint
-      - run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C bin "*/bash_unit"
+      - run: curl -Ls "https://github.com/bash-unit/bash_unit/archive/refs/tags/v${version}.tar.gz" | tar -x -z --wildcards --strip-components=1 -C bin "*/bash_unit"
+        env:
+          version: "v2.3.3"
       - uses: docker://kcov/kcov:latest
         with:
           entrypoint: sh
           args: >-
             -ceux
-            "export PATH=$GITHUB_WORKSPACE/bin:$PATH &&
+            "apt-get update && apt-get install -y jq &&
+            export PATH=$GITHUB_WORKSPACE/bin:$PATH &&
             cd test && kcov
             --bash-parse-files-in-dir=..
             --include-pattern=/lib/,hadolint.sh

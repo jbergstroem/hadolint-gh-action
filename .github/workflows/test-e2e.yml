@@ -1,4 +1,4 @@
-name: Test-E2E
+name: e2e test
 on:
   pull_request:
     paths:
