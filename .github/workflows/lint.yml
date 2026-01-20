@@ -2,8 +2,6 @@ name: Lint
 on:
   pull_request:
     paths:
-      # actionlint
-      - ".github/workflows/*.yml"
       # prettier
       - "**.md"
       - "**.yml"
@@ -18,7 +16,7 @@ jobs:
   validate-renovate-config:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -37,20 +35,16 @@ jobs:
     name: Biome
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Setup Biome
-        uses: biomejs/setup-biome@29711cbb52afee00eb13aeb30636592f9edc0088 # v2.7.0
-      - name: Run Biome
-        run: biome ci .
+      - uses: biomejs/setup-biome@29711cbb52afee00eb13aeb30636592f9edc0088 # v2.7.0
+      - run: biome ci .
 
   shellcheck:
     runs-on: ubuntu-24.04
-    name: Shellcheck
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Install Shellcheck
@@ -62,24 +56,19 @@ jobs:
           echo "::add-matcher::.github/matcher-shellcheck.json"
           shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
   shfmt:
-    name: Shfmt
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Install shfmt
+      - run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
         env:
           version: "3.12.0"
-        run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
-      - name: Lint shell scripts
-        run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
+      - run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
   typos:
-    name: Typos
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Check for typos
-        uses: crate-ci/typos@65120634e79d8374d1aa2f27e54baa0c364fff5a # v1.42.1
+      - uses: crate-ci/typos@65120634e79d8374d1aa2f27e54baa0c364fff5a # v1.42.1
