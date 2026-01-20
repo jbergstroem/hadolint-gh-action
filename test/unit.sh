@@ -4,6 +4,8 @@
 . ../lib/hadolint.sh
 # shellcheck source=lib/validate.sh
 . ../lib/validate.sh
+# shellcheck source=lib/main.sh
+. ../lib/main.sh
 
 test_validate_error_level() {
   assert "validate_error_level 2"
@@ -41,4 +43,26 @@ function test_output_hadolint_version() {
   local VER=""
   VER=$(output_hadolint_version)
   assert_matches ".*hadolint_version=2.10.0.*" "${VER}"
+}
+
+test_exit_with_error() {
+  assert_status_code 1 "exit_with_error 'test error message'"
+}
+
+test_missing_hadolint_binary() {
+  # Mock command -v to return false for hadolint
+  fake "command" "return 1"
+  HADOLINT_PATH="nonexistent_hadolint" assert_status_code 1 "run"
+}
+
+test_missing_jq_binary() {
+  # Mock command -v to return false only for jq (hadolint exists)
+  function command() {
+    case "$2" in
+    "jq") return 1 ;;
+    *) /usr/bin/command "$@" ;;
+    esac
+  }
+  export -f command
+  assert_status_code 1 "run"
 }
