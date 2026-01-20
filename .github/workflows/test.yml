@@ -25,7 +25,7 @@ jobs:
           mkdir -p bin
           curl -L -s -o bin/hadolint "https://github.com/hadolint/hadolint/releases/download/v${version}/hadolint-Linux-x86_64"
           chmod +x bin/hadolint
-      - run: curl -Ls "https://github.com/bash-unit/bash_unit/archive/refs/tags/v${version}.tar.gz" | tar -x -z --wildcards --strip-components=1 -C bin "*/bash_unit"
+      - run: curl -Ls "https://github.com/bash-unit/bash_unit/archive/refs/tags/${version}.tar.gz" | tar -x -z --wildcards --strip-components=1 -C bin "*/bash_unit"
         env:
           version: "v2.3.3"
       - uses: docker://kcov/kcov:latest
