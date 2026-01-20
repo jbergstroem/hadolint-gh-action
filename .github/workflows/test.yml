@@ -7,12 +7,17 @@ on:
       - "action.yml"
       - ".github/workflows/test.yml"
 
+permissions:
+  contents: read
+
 jobs:
   bash_unit:
     name: Bash unit tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
       - name: Get Hadolint version
         # yq is like jq for yaml
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
@@ -20,8 +25,8 @@ jobs:
         run: echo version="$(yq .inputs.version.default action.yml)" >> "${GITHUB_ENV}"
       - name: Install Hadolint
         run: |
-          echo "::debug::Downloading Hadolint ${{ env.version }}"
-          curl -L -s -o hadolint "https://github.com/hadolint/hadolint/releases/download/v${{ env.version }}/hadolint-Linux-x86_64"
+          echo "::debug::Downloading Hadolint ${version}"
+          curl -L -s -o hadolint "https://github.com/hadolint/hadolint/releases/download/v${version}/hadolint-Linux-x86_64"
           chmod +x hadolint
           sudo mv hadolint /usr/local/bin/hadolint
       - name: Install bash_unit
