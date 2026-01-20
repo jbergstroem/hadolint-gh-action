@@ -18,10 +18,9 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
         with:
-          files: |
-            .github/renovate.json
+          files: .github/renovate.json
       - uses: oven-sh/setup-bun@v2
       - run: bun install -g renovate
       - name: Validate config
@@ -51,6 +50,7 @@ jobs:
         run: |
           echo "::add-matcher::.github/matcher-shellcheck.json"
           shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
+
   shfmt:
     runs-on: ubuntu-24.04
     steps:
@@ -61,6 +61,7 @@ jobs:
         env:
           version: "3.12.0"
       - run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
+
   typos:
     runs-on: ubuntu-24.04
     steps:
