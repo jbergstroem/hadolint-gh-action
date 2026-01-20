@@ -2,8 +2,6 @@ name: Lint
 on:
   pull_request:
     paths:
-      # actionlint
-      - ".github/workflows/*.yml"
       # prettier
       - "**.md"
       - "**.yml"
@@ -11,58 +9,43 @@ on:
       # shellcheck & shfmt
       - "**.sh"
 
+permissions:
+  contents: read
+
 jobs:
   validate-renovate-config:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
+      - uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
         id: changed-files
         with:
           files: .github/renovate.json
-      - uses: oven-sh/setup-bun@b7a1c7ccf290d58743029c4f6903da283811b979 # v2
+      - uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2.1.2
         if: steps.changed-files.outputs.any_changed == 'true'
       - run: bun install -g renovate
         if: steps.changed-files.outputs.any_changed == 'true'
       - run: renovate-config-validator .github/renovate.json
         if: steps.changed-files.outputs.any_changed == 'true'
 
-  actionlint:
-    name: Actionlint
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install Actionlint
-        env:
-          version: "1.7.7"
-        run: curl -Ls "https://github.com/rhysd/actionlint/releases/download/v${{ env.version }}/actionlint_${{ env.version }}_linux_amd64.tar.gz" | sudo tar -x -z -C /usr/local/bin actionlint
-      - name: Run Actionlint
-        run: |
-          echo "::add-matcher::.github/matcher-actionlint.json"
-          actionlint -color
   biome:
-    name: Biome
     runs-on: ubuntu-24.04
-    permissions:
-      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
-      - name: Run Biome
-        run: biome ci .
+      - uses: biomejs/setup-biome@29711cbb52afee00eb13aeb30636592f9edc0088 # v2.7.0
+      - run: biome ci .
 
   shellcheck:
     runs-on: ubuntu-24.04
-    name: Shellcheck
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Install Shellcheck
         env:
           version: "0.11.0"
@@ -72,20 +55,19 @@ jobs:
           echo "::add-matcher::.github/matcher-shellcheck.json"
           shellcheck -f gcc -S warning hadolint.sh install.sh lib/*.sh test/*.sh
   shfmt:
-    name: Shfmt
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - name: Install shfmt
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
         env:
           version: "3.12.0"
-        run: curl -Ls -o shfmt "https://github.com/mvdan/sh/releases/download/v${{ env.version }}/shfmt_v${{ env.version }}_linux_amd64" && chmod +x shfmt && sudo mv shfmt /usr/local/bin
-      - name: Lint shell scripts
-        run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
+      - run: shfmt -i 2 -d hadolint.sh install.sh lib/*.sh test/*.sh
   typos:
-    name: Typos
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - name: Check for typos
-        uses: crate-ci/typos@v1.36.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: crate-ci/typos@65120634e79d8374d1aa2f27e54baa0c364fff5a # v1.42.1

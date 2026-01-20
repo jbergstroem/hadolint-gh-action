@@ -7,24 +7,25 @@ on:
       - "action.yml"
       - ".github/workflows/test.yml"
 
+permissions:
+  contents: read
+
 jobs:
   bash_unit:
     name: Bash unit tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - name: Get Hadolint version
-        # yq is like jq for yaml
-        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
-        # shellcheck disable=SC2034
-        run: echo version="$(yq .inputs.version.default action.yml)" >> "${GITHUB_ENV}"
-      - name: Install Hadolint
-        run: |
-          echo "::debug::Downloading Hadolint ${{ env.version }}"
-          curl -L -s -o hadolint "https://github.com/hadolint/hadolint/releases/download/v${{ env.version }}/hadolint-Linux-x86_64"
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      # yq is like jq for yaml
+      # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#tools
+      # shellcheck disable=SC2034
+      - run: echo version="$(yq .inputs.version.default action.yml)" >> "${GITHUB_ENV}"
+      - run: |
+          echo "::debug::Downloading Hadolint ${version}"
+          curl -L -s -o hadolint "https://github.com/hadolint/hadolint/releases/download/v${version}/hadolint-Linux-x86_64"
           chmod +x hadolint
           sudo mv hadolint /usr/local/bin/hadolint
-      - name: Install bash_unit
-        run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C /usr/local/bin "*/bash_unit"
-      - name: Run suite
-        run: bash_unit test/*.sh
+      - run: curl -Ls "https://github.com/pgrange/bash_unit/archive/refs/tags/v2.3.3.tar.gz" | tar -x -z --wildcards --strip-components=1 -C /usr/local/bin "*/bash_unit"
+      - run: bash_unit test/*.sh
