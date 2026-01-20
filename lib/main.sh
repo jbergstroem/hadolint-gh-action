@@ -55,7 +55,7 @@ function run() {
 
   local EXITCODE=0
   case "${ERRORLEVEL}" in
-  -1) ;; # Ignore all errors
+  -1) : ;; # Ignore all errors
   0) [[ "${OUTPUT}" =~ DL[0-9]+[[:space:]]error: ]] && EXITCODE=1 ;;
   1) [[ "${OUTPUT}" =~ (warning|error): ]] && EXITCODE=1 ;;
   2) [[ -n "${OUTPUT}" ]] && EXITCODE=1 ;;

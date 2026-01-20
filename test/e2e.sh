@@ -81,6 +81,10 @@ test_custom_output_format() {
   assert "output_format=gitlab_codeclimate dockerfile=fixtures/Dockerfile-error ${HL} | grep fingerprint"
 }
 
+test_invalid_output_format() {
+  assert_status_code 1 "output_format=invalid_format dockerfile=fixtures/Dockerfile-valid ${HL}"
+}
+
 test_bash_glob_expansion() {
   assert "output_format=tty dockerfile=fixtures/**/Dockerfile-glob* ${HL}" "expand shell globs before passing to hadolint"
 }
