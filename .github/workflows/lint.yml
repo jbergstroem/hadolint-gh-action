@@ -29,14 +29,14 @@ jobs:
       - run: renovate-config-validator .github/renovate.json
         if: steps.changed-files.outputs.any_changed == 'true'
 
-  biome:
+  oxfmt:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - uses: biomejs/setup-biome@29711cbb52afee00eb13aeb30636592f9edc0088 # v2.7.0
-      - run: biome ci .
+      - uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2.1.2
+      - run: bunx oxfmt --check
 
   shellcheck:
     runs-on: ubuntu-24.04

@@ -1,92 +1,92 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"baseBranchPatterns": ["main"],
-	"extends": [
-		":dependencyDashboard",
-		":disableRateLimiting",
-		":rebaseStalePrs",
-		":semanticCommits",
-		":separateMajorReleases"
-	],
-	"ignorePaths": ["**/test/fixtures**"],
-	"enabledManagers": ["github-actions", "custom.regex"],
-	"commitMessageAction": "",
-	"commitMessageTopic": "{{depName}}",
-	"commitMessageExtra": "{{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
-	"packageRules": [
-		{
-			"matchManagers": ["github-actions"],
-			"commitMessageTopic": "{{depName}}"
-		},
-		{
-			"commitMessageTopic": "hadolint",
-			"matchPackageNames": ["/hadolint/"]
-		},
-		{
-			"commitMessageTopic": "actionlint",
-			"matchPackageNames": ["/actionlint/"]
-		},
-		{
-			"commitMessageTopic": "bash_unit",
-			"matchPackageNames": ["/bash_unit/"]
-		},
-		{
-			"commitMessageTopic": "shfmt",
-			"matchPackageNames": ["/mvdan/sh/"]
-		},
-		{
-			"matchPackageNames": ["shellcheck"],
-			"commitMessageTopic": "shellcheck"
-		},
-		{
-			"groupName": "all non-major dependencies",
-			"groupSlug": "all-minor-patch",
-			"matchPackageNames": ["*", "!/hadolint/"],
-			"matchUpdateTypes": ["minor", "patch"]
-		}
-	],
-	"customManagers": [
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.yml$/"],
-			"matchStrings": [
-				"version: \"(?<currentValue>.*?)\"\\s+run: curl -Ls( -o \\w+)? \"https://github.com/(?<depName>.*?)/releases/download.*",
-				"https://github\\.com/(?<depName>.*?)/archive/refs/tags/v(?<currentValue>.*?)\\.tar\\.gz"
-			],
-			"datasourceTemplate": "github-releases",
-			"extractVersionTemplate": "^v(?<version>.*)$"
-		},
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.yml$/"],
-			"matchStrings": ["node-version: \"(?<currentValue>.*?)\"\\n"],
-			"depNameTemplate": "actions/node-versions",
-			"datasourceTemplate": "github-releases"
-		},
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/^action\\.yml$/", "/^README\\.md$/"],
-			"matchStrings": [
-				"version:\\s+default: (?<currentValue>.*?)\\n",
-				"version\\s+\\|\\s`(?<currentValue>.*?)`"
-			],
-			"depNameTemplate": "hadolint/hadolint",
-			"datasourceTemplate": "github-releases",
-			"extractVersionTemplate": "^v(?<version>.*)$"
-		},
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/^\\.github/workflows/test-e2e\\.yml$/"],
-			"matchStrings": [
-				"# renovate: datasource=github-releases depName=hadolint/hadolint\\n\\s+matrix:\\n\\s+version: \\[.*\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\"\\]"
-			],
-			"depNameTemplate": "hadolint/hadolint",
-			"datasourceTemplate": "github-releases",
-			"extractVersionTemplate": "^v(?<version>.*)$"
-		}
-	],
-	"labels": ["type: dependencies"],
-	"prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
-	"prHeader": "",
-	"prFooter": ""
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "baseBranchPatterns": ["main"],
+  "extends": [
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":rebaseStalePrs",
+    ":semanticCommits",
+    ":separateMajorReleases"
+  ],
+  "ignorePaths": ["**/test/fixtures**"],
+  "enabledManagers": ["github-actions", "custom.regex"],
+  "commitMessageAction": "",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "{{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "commitMessageTopic": "{{depName}}"
+    },
+    {
+      "commitMessageTopic": "hadolint",
+      "matchPackageNames": ["/hadolint/"]
+    },
+    {
+      "commitMessageTopic": "actionlint",
+      "matchPackageNames": ["/actionlint/"]
+    },
+    {
+      "commitMessageTopic": "bash_unit",
+      "matchPackageNames": ["/bash_unit/"]
+    },
+    {
+      "commitMessageTopic": "shfmt",
+      "matchPackageNames": ["/mvdan/sh/"]
+    },
+    {
+      "matchPackageNames": ["shellcheck"],
+      "commitMessageTopic": "shellcheck"
+    },
+    {
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "matchPackageNames": ["*", "!/hadolint/"],
+      "matchUpdateTypes": ["minor", "patch"]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.yml$/"],
+      "matchStrings": [
+        "version: \"(?<currentValue>.*?)\"\\s+run: curl -Ls( -o \\w+)? \"https://github.com/(?<depName>.*?)/releases/download.*",
+        "https://github\\.com/(?<depName>.*?)/archive/refs/tags/v(?<currentValue>.*?)\\.tar\\.gz"
+      ],
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.yml$/"],
+      "matchStrings": ["node-version: \"(?<currentValue>.*?)\"\\n"],
+      "depNameTemplate": "actions/node-versions",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^action\\.yml$/", "/^README\\.md$/"],
+      "matchStrings": [
+        "version:\\s+default: (?<currentValue>.*?)\\n",
+        "version\\s+\\|\\s`(?<currentValue>.*?)`"
+      ],
+      "depNameTemplate": "hadolint/hadolint",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/test-e2e\\.yml$/"],
+      "matchStrings": [
+        "# renovate: datasource=github-releases depName=hadolint/hadolint\\n\\s+matrix:\\n\\s+version: \\[.*\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\"\\]"
+      ],
+      "depNameTemplate": "hadolint/hadolint",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
+  ],
+  "labels": ["type: dependencies"],
+  "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
+  "prHeader": "",
+  "prFooter": ""
 }
