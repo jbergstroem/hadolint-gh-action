@@ -28,6 +28,10 @@ inputs:
     default: 2.14.0
     description: Use a specific version of Hadolint
     required: true
+  advanced_security:
+    default: "false"
+    description: Run hadolint with SARIF output and upload to GitHub Advanced Security (`true`/`false`)
+    required: false
 
 outputs:
   hadolint_output:
@@ -59,7 +63,15 @@ runs:
         annotate: ${{ inputs.annotate }}
         output_format: ${{ inputs.output_format }}
         version: ${{ inputs.version }}
+        advanced_security: ${{ inputs.advanced_security }}
       run: ${{ github.action_path }}/hadolint.sh
+
+    - name: Upload SARIF file to GitHub Advanced Security
+      uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89 # v4.31.10
+      if: ${{ inputs.advanced_security == 'true' }}
+      with:
+        sarif_file: ${{ steps.run.outputs.sarif_file }}
+        category: hadolint
 
 branding:
   icon: "check"
