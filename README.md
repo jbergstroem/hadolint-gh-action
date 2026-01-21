@@ -28,7 +28,7 @@ More usage examples [can be found in USAGE.md](USAGE.md).
 | dockerfile        | `./Dockerfile` | Path to Dockerfile(s). Accepts shell expansions (`**/Dockerfile`)                                                                             |
 | config_file       |                | Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)                                                             |
 | error_level       | `0`            | Fail CI based on hadolint output (`-1`: never, `0`: error, `1`: warning, `2`: info)                                                           |
-| annotate          | true           | Annotate code inline in the github PR viewer (`true`/`false`)                                                                                 |
+| annotate          | `true`         | Annotate code inline in the github PR viewer (`true`/`false`)                                                                                 |
 | output_format     |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `gnu`, `codacy`, `sonarqube` and `sarif`) |
 | hadolint_path     |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                                                                 |
 | version           | `2.14.0`       | Use a specific version of Hadolint                                                                                                            |
@@ -67,7 +67,7 @@ Enable `advanced_security` to upload hadolint findings to the [GitHub Advanced S
     advanced_security: true
 ```
 
-Note: Requires `security-events: write` permission. See [USAGE.md](USAGE.md#github-advanced-security) for detailed examples.
+Note: Requires `security-events: write` permission. See [USAGE.md](USAGE.md#github-advanced-security) for a detailed example.
 
 ## Robustness
 
