@@ -12,10 +12,10 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Hadolint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
@@ -57,6 +57,18 @@ These output variables are always populated:
 - `hadolint_version`: the version of hadolint used while running the action
 - `hadolint_gh_action_version`: the version of this action while running it
 
+## GitHub Advanced Security
+
+Enable `advanced_security` to upload hadolint findings to the [GitHub Advanced Security][gh-advanced-security] dashboard. Results appear in the Security tab of your repository, providing centralized vulnerability tracking.
+
+```yaml
+- uses: jbergstroem/hadolint-gh-action@v1
+  with:
+    advanced_security: true
+```
+
+Note: Requires `security-events: write` permission. See [USAGE.md](USAGE.md#github-advanced-security) for detailed examples.
+
 ## Robustness
 
 Also known as "can I run this in production". The action itself is tested via CI for all its use cases as well as unit tests for each function. Additionally, `shellcheck` is run against all shell scripts. Releases are cut manually (for now) and the action will strictly follow semver with regards to breaking functionality or options.
@@ -66,3 +78,4 @@ Also known as "can I run this in production". The action itself is tested via CI
 Due to staying with bash we can avoid Docker-related performance penalties. Yet to be benchmarked, but it is likely on par or faster than other hadolint actions.
 
 [hadolint]: http://github.com/hadolint/hadolint/
+[gh-advanced-security]: https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security

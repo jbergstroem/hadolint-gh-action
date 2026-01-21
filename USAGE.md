@@ -15,10 +15,10 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Hadolint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
     with:
       # ignore warnings (but still fail on errors) from hadolint
@@ -50,10 +50,10 @@ on:
 
 jobs:
   hadolint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Hadolint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
 ```
 
@@ -78,10 +78,10 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Hadolint"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
     with:
       dockerfile: "Dockerfile path/to/my/other/Dockerfile"
@@ -101,13 +101,13 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Hadolint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v42
+        uses: tj-actions/changed-files@v47
         with:
           # Pass what names/filters you want to catch
           files: |
@@ -120,6 +120,41 @@ jobs:
           dockerfile: "${{ steps.changed-files.outputs.other_changed_files }}"
 ```
 
+## GitHub Advanced Security
+
+[GitHub Advanced Security][gh-advanced-security] provides a centralized dashboard for tracking security
+vulnerabilities across your repositories. By enabling the `advanced_security` option, hadolint results
+are uploaded in SARIF format and appear in the Security tab of your repository.
+
+Enable `advanced_security` to upload findings to the Security tab:
+
+```yaml
+name: Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  hadolint:
+    runs-on: ubuntu-24.04
+    name: Hadolint
+    steps:
+      - uses: actions/checkout@v6
+      - uses: jbergstroem/hadolint-gh-action@v1
+        with:
+          advanced_security: true
+```
+
+Note: The `security-events: write` permission is required for uploading SARIF results.
+
+You can additionally combine `advanced_security` with other options like `error_level` to customize behavior.
+
 [gh-on]: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpaths
 [gh-param]: https://github.com/jbergstroem/hadolint-gh-action#parameters
 [gh-changed-files]: https://github.com/tj-actions/changed-files
+[gh-advanced-security]: https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security
