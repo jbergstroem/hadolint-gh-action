@@ -30,7 +30,8 @@ function run() {
   fi
 
   validate_error_level "${ERRORLEVEL}" || exit_with_error "Provided error level is not supported. Valid values: -1, 0, 1, 2"
-  validate_annotate "${ANNOTATE}" || exit_with_error "Annotate needs to be set to true or false"
+  validate_boolean "${ANNOTATE}" || exit_with_error "Annotate needs to be set to true or false"
+  validate_boolean "${ADVANCED_SECURITY}" || exit_with_error "advanced_security needs to be set to true or false"
   [[ -z "${OUTPUT_FORMAT}" ]] || validate_output_format "${OUTPUT_FORMAT}" ||
     exit_with_error "Invalid format. If set, output format needs to be one of: tty, json, checkstyle, codeclimate, gitlab_codeclimate, gnu, codacy, sonarqube, sarif"
 

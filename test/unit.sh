@@ -17,13 +17,13 @@ test_validate_invalid_error_level() {
   assert_fail "validate_error_level foo"
 }
 
-test_validate_annotate() {
-  assert "validate_annotate true"
-  assert "validate_annotate false"
+test_validate_boolean() {
+  assert "validate_boolean true"
+  assert "validate_boolean false"
 }
 
-test_validate_invalid_annotate() {
-  assert_fail "validate_annotate /dev/null"
+test_validate_invalid_boolean() {
+  assert_fail "validate_boolean /dev/null"
 }
 
 test_validate_output_format() {
