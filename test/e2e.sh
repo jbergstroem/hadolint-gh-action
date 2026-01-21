@@ -108,3 +108,23 @@ test_ci_vs_non_ci_annotation_behavior() {
   # Test non-CI - should not add matcher even with annotate=true
   assert_status_code 1 "GITHUB_ACTIONS=false dockerfile=fixtures/Dockerfile-error ${HL} | grep '::add-matcher::'" "non-CI mode should not add matcher"
 }
+
+test_advanced_security_generates_sarif() {
+  local TMPFILE=""
+  TMPFILE="$(mktemp ${MKDIR_PREFIX})"
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=true advanced_security=true dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
+  assert "cat ${TMPFILE} | grep -q sarif_file" "advanced_security=true should output sarif_file path"
+  # Verify the SARIF file exists and contains valid SARIF content
+  local SARIF_PATH=""
+  SARIF_PATH="$(grep sarif_file "${TMPFILE}" | cut -d= -f2)"
+  assert "test -f ${SARIF_PATH}" "SARIF file should exist"
+  assert "cat ${SARIF_PATH} | grep -q '\$schema'" "SARIF file should contain valid SARIF schema"
+}
+
+test_advanced_security_non_ci_mode() {
+  local TMPFILE=""
+  TMPFILE="$(mktemp ${MKDIR_PREFIX})"
+  # In non-CI mode, sarif_file should not be written to GITHUB_OUTPUT
+  GITHUB_OUTPUT="${TMPFILE}" GITHUB_ACTIONS=false advanced_security=true dockerfile=fixtures/default-path/Dockerfile ${HL} &>/dev/null
+  assert_status_code 1 "cat ${TMPFILE} | grep -q sarif_file" "non-CI mode should not write sarif_file to GITHUB_OUTPUT"
+}
