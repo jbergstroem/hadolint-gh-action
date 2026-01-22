@@ -41,3 +41,8 @@ bash_unit test/*.sh
 2. Create a draft release on Github and generate release notes
 3. Have a coffee and think about all the mistakes you made
 4. Ship it
+5. Update the major tag to point to the same commit as the release:
+   ```bash
+   git tag -f v1 $(git rev-parse HEAD) # assuming HEAD points to the release commit
+   git push -f origin v1
+   ```
