@@ -50,7 +50,7 @@
       "customType": "regex",
       "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.yml$/"],
       "matchStrings": [
-        "version: \"(?<currentValue>.*?)\"\\s+run: curl -Ls( -o \\w+)? \"https://github.com/(?<depName>.*?)/releases/download.*",
+        "run: curl -Ls( -o \\w+)? \"https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download.*\\s+env:\\s+version: \"(?<currentValue>[^\"]+)\"",
         "https://github\\.com/(?<depName>.*?)/archive/refs/tags/v(?<currentValue>.*?)\\.tar\\.gz"
       ],
       "datasourceTemplate": "github-releases",
