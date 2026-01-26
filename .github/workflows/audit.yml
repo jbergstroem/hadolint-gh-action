@@ -37,7 +37,7 @@ jobs:
           persist-credentials: false
       - run: curl -Ls "https://github.com/rhysd/actionlint/releases/download/v${{ env.version }}/actionlint_${{ env.version }}_linux_amd64.tar.gz" | sudo tar -x -z -C /usr/local/bin actionlint
         env:
-          version: "1.7.8"
+          version: "1.7.10"
       - run: |
           echo "::add-matcher::.github/matcher-actionlint.json"
           actionlint -color
