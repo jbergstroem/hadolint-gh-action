@@ -22,6 +22,17 @@ jobs:
         with:
           dockerfile: test/fixtures/Dockerfile-valid
 
+  gh-action-default-slim:
+    name: Action validates Dockerfiles using the `ubuntu-slim` container
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./
+        with:
+          dockerfile: test/fixtures/Dockerfile-valid
+
   gh-action-version:
     name: Action supports custom version
     runs-on: ubuntu-24.04
