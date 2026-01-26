@@ -12,7 +12,7 @@ on: pull_request
 
 jobs:
   hadolint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     name: Hadolint
     steps:
       - uses: actions/checkout@v6
