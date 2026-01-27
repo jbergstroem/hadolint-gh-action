@@ -20,9 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
-    with:
-      # ignore warnings (but still fail on errors) from hadolint
-      error_level: 1
+        with:
+          # ignore warnings (but still fail on errors) from hadolint
+          error_level: 1
 ```
 
 ## Run on certain Dockerfiles
@@ -30,12 +30,12 @@ jobs:
 By default, hadolint only looks for a `Dockerfile` in the same directory you would
 invoke it from - most often the root of your repository.
 
-Depending on what your you case, you can tailor either when the action should run
+Depending on your use case, you can tailor either when the action should run
 or what files you want to pass to it.
 
 ### Only run if there are changes to a Dockerfile
 
-If you want to control when you want hadolint to fire, you can tell github actions when it
+If you want to control when you want hadolint to fire, you can tell GitHub Actions when it
 should run by using the [`on` directive][gh-on]; specifically `paths` or `ignore-paths`.
 
 In this example, the job will only run if there is a change to `Dockerfile` in the commits
@@ -79,12 +79,12 @@ on: pull_request
 jobs:
   hadolint:
     runs-on: ubuntu-slim
-    name: Hadolint"
+    name: Hadolint
     steps:
       - uses: actions/checkout@v6
       - uses: jbergstroem/hadolint-gh-action@v1
-    with:
-      dockerfile: "Dockerfile path/to/my/other/Dockerfile"
+        with:
+          dockerfile: "Dockerfile path/to/my/other/Dockerfile"
 ```
 
 ### Only pass Dockerfiles that are changed in the PR
