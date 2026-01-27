@@ -38,7 +38,7 @@ bash_unit test/*.sh
 ## Creating a release
 
 1. Make sure the version number in `lib/hadolint.sh` matches what you expect to release (semver)
-2. Create a draft release on Github and generate release notes
+2. Create a draft release on GitHub and generate release notes
 3. Have a coffee and think about all the mistakes you made
 4. Ship it
 5. Update the major tag to point to the same commit as the release:

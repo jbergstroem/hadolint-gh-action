@@ -2,6 +2,9 @@
 
 A stable, well-tested, highly configurable way of checking your Dockerfile(s) with [hadolint][hadolint].
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![codecov](https://codecov.io/gh/jbergstroem/hadolint-gh-action/graph/badge.svg?token=M7O9MTLBS2)](https://codecov.io/gh/jbergstroem/hadolint-gh-action)
+
 ## Usage
 
 Verify your dockerfiles with hadolint for pull requests:
@@ -26,9 +29,9 @@ More usage examples [can be found in USAGE.md](USAGE.md).
 | Variable          | Default        | Description                                                                                                                                   |
 | :---------------- | :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
 | dockerfile        | `./Dockerfile` | Path to Dockerfile(s). Accepts shell expansions (`**/Dockerfile`)                                                                             |
-| config_file       |                | Path to optional config (hadolint defaults to read `./hadolint.yml` if it exists)                                                             |
+| config_file       |                | Path to an optional config file (hadolint defaults to read `./hadolint.yml` if it exists)                                                     |
 | error_level       | `0`            | Fail CI based on hadolint output (`-1`: never, `0`: error, `1`: warning, `2`: info)                                                           |
-| annotate          | `true`         | Annotate code inline in the github PR viewer (`true`/`false`)                                                                                 |
+| annotate          | `true`         | Annotate code inline in the GitHub PR viewer (`true`/`false`)                                                                                 |
 | output_format     |                | Set output format (choose between `tty`, `json`, `checkstyle`, `codeclimate`, `gitlab_codeclimate`, `gnu`, `codacy`, `sonarqube` and `sarif`) |
 | hadolint_path     |                | Absolute path to hadolint binary. If unset, it is assumed to exist in `$PATH`                                                                 |
 | version           | `2.14.0`       | Use a specific version of Hadolint                                                                                                            |
@@ -36,7 +39,7 @@ More usage examples [can be found in USAGE.md](USAGE.md).
 
 ## Hadolint version
 
-The github action accepts an input - `version` - to switch/pin to a different version of hadolint.
+The GitHub Action accepts a `version` input to switch to or pin a specific version of hadolint.
 
 The output variable `hadolint_version` will always contain what version the action is running.
 This can be useful in debugging scenarios where things "break" from one day to the other due to the action being updated.
@@ -50,7 +53,7 @@ You can control the behavior of how hadolint presents its findings by configurin
 - annotate: let feedback show inline in your code review
 - output_format: store the output in a variable you can pass on to other processing tools
 
-If `output_format` is set, the github action variable `hadolint_output` will contain the output. You can choose what format you prefer depending on how you want to process the results.
+If `output_format` is set, the GitHub Action variable `hadolint_output` will contain the output. You can choose what format you prefer depending on how you want to process the results.
 
 These output variables are always populated:
 
