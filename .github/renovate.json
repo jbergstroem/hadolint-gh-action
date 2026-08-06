@@ -41,7 +41,7 @@
     {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
-      "matchPackageNames": ["*", "!/hadolint/"],
+      "matchPackageNames": ["!/hadolint/"],
       "matchUpdateTypes": ["minor", "patch"]
     }
   ],
