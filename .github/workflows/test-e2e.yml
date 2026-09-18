@@ -13,7 +13,7 @@ permissions:
 jobs:
   gh-action-default:
     name: Action validates Dockerfiles
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -35,7 +35,7 @@ jobs:
 
   gh-action-version:
     name: Action supports custom version
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -57,7 +57,7 @@ jobs:
 
   gh-action-glob:
     name: Action supports glob expansion
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -70,7 +70,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/134
   gh-action-multiple-invocations:
     name: Action supports multiple invocations in a job
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -102,7 +102,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/142
   gh-action-version-variations:
     name: Action supports version variations
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       # renovate: datasource=github-releases depName=hadolint/hadolint
       matrix:
@@ -130,7 +130,7 @@ jobs:
   # https://github.com/jbergstroem/hadolint-gh-action/issues/147
   gh-action-output:
     name: Action populates output if configured
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
